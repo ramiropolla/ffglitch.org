@@ -1,0 +1,46 @@
+---
+layout: default
+---
+
+<div class="home">
+  {% if page.title %}
+    <h1 class="page-heading">{{ page.title }}</h1>
+  {% endif %}
+  {{ content }}
+  {% if paginator.posts.size > 0 %}
+    <ul class="post-list">
+      {% for post in paginator.posts %}
+        <li>
+          <div class="post-container">
+            <div class="post-image-div">
+              <img class="post-image-img" src='{{ post.image | prepend: "/assets/images/" | relative_url }}'/>
+            </div>
+            <div class="post-text-div">
+              <div class="post-text-div-internal">
+                {% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
+                <span class="post-meta">{{ post.date | date: date_format }}</span>
+                <h3>
+                  <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+                </h3>
+              </div>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+    {% if paginator.total_pages > 1 %}
+    <div>
+      {% if paginator.previous_page %}
+      <div style="float: left;">
+        <a href="{{ paginator.previous_page_path | relative_url }}">&larr; Newer Posts</a>
+      </div>
+      {% endif %}
+      {% if paginator.next_page %}
+      <div style="float: right;">
+        <a href="{{ paginator.next_page_path | relative_url }}">Older Posts &rarr;</a>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  {% endif %}
+</div>

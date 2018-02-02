@@ -1,0 +1,34 @@
+title: FFglitch
+author: Ramiro Polla
+email: ramiro.polla@gmail.com
+description: Nobody cares
+
+# baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://ffglitch.org"
+
+github_username: ramiropolla
+
+# If you want to link only specific pages in your header, uncomment
+# this and add the path to the pages in order as they should show up
+header_pages:
+  - what.md
+  - who.md
+  - download.md
+
+# Build settings
+markdown: kramdown
+theme: minima
+exclude:
+  - Gemfile
+  - Gemfile.lock
+
+# Produces a cleaner folder structure when using categories
+permalink: /:year/:month/:title.html
+
+plugins: [ jekyll-paginate ]
+paginate: 5
+
+# Minima date format
+# refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
+minima:
+  date_format: "%Y-%m-%d"
