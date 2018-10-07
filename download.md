@@ -12,6 +12,10 @@ Get statically-linked **Linux** binaries here:
 <br />
 [http://ffglitch.org/pub/bin/linux/ffglitch-0.6.002-musl.7z](http://ffglitch.org/pub/bin/linux/ffglitch-0.6.002-musl.7z)
 
+Get the **ffglitch.py script** here:
+<br />
+[http://ffglitch.org/pub/src/ffglitch.py](http://ffglitch.org/pub/src/ffglitch.py)
+
 Get the **source code** here:
 <br />
 [http://ffglitch.org/pub/src/ffglitch-0.6.002.tar.xz](http://ffglitch.org/pub/src/ffglitch-0.6.002.tar.xz)
