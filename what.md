@@ -6,7 +6,7 @@ permalink: /what/
 
 ## What is FFglitch?
 
-FFglitch is a multimedia bitstream editor, based on the open-source project [FFmpeg](http://ffmpeg.org/).
+FFglitch is a **multimedia bitstream editor**, based on the open-source project [FFmpeg](http://ffmpeg.org/).
 
 FFglitch allows you to very precisely edit multimedia files.
 
