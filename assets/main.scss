@@ -3,3 +3,19 @@
 ---
 
 @import "minima";
+
+.image256
+{
+    margin: 0 auto;
+    display: block;
+    border: 1px solid black;
+    width: 256px;
+    height: 256px;
+    image-rendering: pixelated;
+}
+
+.image256 + em
+{
+    text-align: center;
+    display: block;
+}
