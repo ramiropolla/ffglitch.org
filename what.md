@@ -12,7 +12,7 @@ FFglitch allows you to very precisely edit multimedia files.
 
 FFglitch generates files with a **valid bitstream**. This means that VLC and Facebook **won't choke with your files**.
 
-FFglitch is the [CRISPR/Cas9](https://en.wikipedia.org/wiki/CRISPR) of glitching.
+FFglitch is the [Prime Editing](https://en.wikipedia.org/wiki/Prime_editing) of glitching.
 
 FFglitch is so precise, it can barely be considered glitching at all.
 
