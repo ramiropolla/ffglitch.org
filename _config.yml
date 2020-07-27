@@ -12,6 +12,7 @@ github_username: ramiropolla
 # this and add the path to the pages in order as they should show up
 header_pages:
   - what.md
+  - how.md
   - who.md
   - download.md
 

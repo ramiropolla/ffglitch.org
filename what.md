@@ -16,17 +16,6 @@ FFglitch is the [Prime Editing](https://en.wikipedia.org/wiki/Prime_editing) of 
 
 FFglitch is so precise, it can barely be considered glitching at all.
 
-## How do I use FFglitch?
-
-FFglitch still does not have a nice graphical user interface. It's an ugly command-line based program.
-
-It works in 3 steps:
-1. Export data from media file
-2. Glitch data however you see fit
-3. Apply glitched data and generate a new file
-
-Look at the posts on the <a href="{{ site.url }}">main page</a> to have a better idea on how to use it.
-
 ## How does FFglitch work?
 
 FFglitch works by decoding a media file with FFmpeg, and replicating the file while doing it.
