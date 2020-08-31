@@ -15,6 +15,7 @@ header_pages:
   - how.md
   - who.md
   - download.md
+  - gallery.md
 
 # Build settings
 markdown: kramdown
