@@ -49,13 +49,13 @@ This clip made by Ben Cooper using mainly [avidemux](http://avidemux.sourceforge
 <hr/>
 [Jo Grys](https://frgmnt.org/) has posted some videos on Facebook:
 
+<div class="fb-post" data-href="https://www.facebook.com/frgmnt/posts/10212044883897132" data-show-text="true" data-width="auto"><blockquote cite="https://www.facebook.com/frgmnt/posts/10212044883897132" class="fb-xfbml-parse-ignore"><p>Study In Motion Vectors (rnd13), frgmnt.org 2018
+#videomosh #FFglitch #MVmanipulation #FFmpeg #Python #mpeg2
+
 <div class="fb-post" data-href="https://www.facebook.com/frgmnt/posts/10212649875701549" data-show-text="true" data-width="auto"><blockquote cite="https://www.facebook.com/frgmnt/posts/10212649875701549" class="fb-xfbml-parse-ignore"><p>Horses!
 (rnd19 algo mosh over filtered source, using an excerpt from &quot;Human ext Vol. I)
 frgmnt.org 2019
 #videomosh #FFglitch #MVmanipulation #FFmpeg #Python #mpeg2</p>Posted by <a href="https://www.facebook.com/frgmnt">Jo Grys</a> on&nbsp;<a href="https://www.facebook.com/frgmnt/posts/10212649875701549">Saturday, February 2, 2019</a></blockquote></div>
-
-<div class="fb-post" data-href="https://www.facebook.com/frgmnt/posts/10212044883897132" data-show-text="true" data-width="auto"><blockquote cite="https://www.facebook.com/frgmnt/posts/10212044883897132" class="fb-xfbml-parse-ignore"><p>Study In Motion Vectors (rnd13), frgmnt.org 2018
-#videomosh #FFglitch #MVmanipulation #FFmpeg #Python #mpeg2
 
 Source: Left  /  Transformation: Right</p>Posted by <a href="https://www.facebook.com/frgmnt">Jo Grys</a> on&nbsp;<a href="https://www.facebook.com/frgmnt/posts/10212044883897132">Sunday, October 21, 2018</a></blockquote></div>
 
@@ -72,7 +72,7 @@ There are more if you search for #ffglitch on Facebook:
 - [http://paintingsarestories.blogspot.com/2020/06/the-ethics-of-sources-day-2-ffmpeg-and.html](http://paintingsarestories.blogspot.com/2020/06/the-ethics-of-sources-day-2-ffmpeg-and.html)
 
 <hr/>
-And some more random clips I found here and there:
+And some more random clips I found spread around the interwebz:
 - [https://www.reddit.com/r/brokengifs/comments/ey863f/some_minor_smudging](https://www.reddit.com/r/brokengifs/comments/ey863f/some_minor_smudging)
 - [https://fb.com/groups/Glitchcollective/?post_id=2223010624487144](https://fb.com/groups/Glitchcollective/?post_id=2223010624487144)
 - [https://www.instagram.com/p/B_QKvtcBJaW](https://www.instagram.com/p/B_QKvtcBJaW)
