@@ -76,3 +76,4 @@ And some more random clips I found spread around the interwebz:
 - [https://www.reddit.com/r/brokengifs/comments/ey863f/some_minor_smudging](https://www.reddit.com/r/brokengifs/comments/ey863f/some_minor_smudging)
 - [https://fb.com/groups/Glitchcollective/?post_id=2223010624487144](https://fb.com/groups/Glitchcollective/?post_id=2223010624487144)
 - [https://www.instagram.com/p/B_QKvtcBJaW](https://www.instagram.com/p/B_QKvtcBJaW)
+- [https://fb.com/groups/Glitchcollective/?post_id=3204236243031239](https://fb.com/groups/Glitchcollective/?post_id=3204236243031239)
