@@ -199,7 +199,7 @@ To have an useful output file, we are going to have to bake the concatenated cat
 
 Use FFmpeg to bake the cats into a normal h264 mp4 file:
 ```bash
-$ ./ffmpeg -i /tmp/concatenated_cats.mpg -y /tmp/concatenated_cats.mp4
+$ ffmpeg -i /tmp/concatenated_cats.mpg -y /tmp/concatenated_cats.mp4
 ```
 
 And there you'll have a nice baked datamoshed concatenated cat video.
@@ -207,3 +207,6 @@ And there you'll have a nice baked datamoshed concatenated cat video.
 <video preload="auto" loop autoplay muted controls width="100%">
   <source src="/assets/images/concatenated_cats_11.mp4" type="video/mp4">
 </video>
+
+And yes, this entire post was a pun on the `cat` command we used to
+concatenate files.
