@@ -28,7 +28,7 @@ exclude:
 permalink: /:year/:month/:title.html
 
 plugins: [ jekyll-paginate ]
-paginate: 5
+paginate: 6
 
 # Minima date format
 # refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
