@@ -6,11 +6,11 @@ author: "Ramiro Polla"
 ---
 
 The [previous post]({% post_url 2020-09-06-cat_videos %}) gave a simple
-tutorial on how to datamosh cat videos using FFmpeg and simple Unix commands.
-This post is a follow-up, with more FFmpeg usage, more Unix commands,
+tutorial on how to datamosh cat videos using `ffgac` and simple Unix commands.
+This post is a follow-up, with more `ffgac` usage, more Unix commands,
 and more cats.
 
-The difference is that this post is more precise, using FFmpeg to split
+The difference is that this post is more precise, using `ffgac` to split
 the videos one frame at a time.
 
 0 - Choosing cat videos
@@ -27,7 +27,7 @@ Prepare the cat videos in the same way as the [previous post]({% post_url 2020-0
 $ mkdir mpeg2
 $ for I in *.mp4;
   do
-    ./ffmpeg -i "$I" \
+    ffgac -i "$I" \
              -an -vcodec mpeg2video -f rawvideo \
              -mpv_flags +nopimb \
              -qscale:v 6 \
@@ -44,7 +44,7 @@ $ for I in *.mp4;
 ======================
 
 Instead of splitting the cats using the `split` command, we will use
-FFmpeg to split the video in individual frames.
+`ffgac` to split the video in individual frames.
 
 ```bash
 $ cd mpeg2
@@ -52,7 +52,7 @@ $ mkdir frames
 $ let x=10
 $ for I in *.mpg;
   do
-    ffmpeg -i "$I" -vcodec copy frames/cat_${x}_%04d.raw;
+    ffgac -i "$I" -vcodec copy frames/cat_${x}_%04d.raw;
     let x=x+1;
   done
 ```

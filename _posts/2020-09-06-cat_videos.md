@@ -8,7 +8,7 @@ author: "Ramiro Polla"
 This post will show how to do some datamoshing without using FFglitch.
 
 Instead, I'll just be playing around with the FFmpeg build provided
-with FFglitch and basic [UNIX](https://en.wikipedia.org/wiki/Unix) commands.
+with FFglitch (called `ffgac`) and basic [UNIX](https://en.wikipedia.org/wiki/Unix) commands.
 For that, you will need to use either
 [Linux](https://en.wikipedia.org/wiki/Linux),
 [macOS](https://en.wikipedia.org/wiki/MacOS),
@@ -66,7 +66,7 @@ they all have the same frame rate and width/height. To achieve that, we
 will use FFmpeg.
 
 But not any build of FFmpeg. We will use the special build of FFmpeg
-that comes packaged with FFglitch, since it gives us a few more options
+that comes packaged with FFglitch (called `ffgac`), since it gives us a few more options
 that greatly help preparing cat videos for glitching.
 
 The following commands will create a directory named `mpeg2` and
@@ -77,7 +77,7 @@ convert all cat videos to
 $ mkdir mpeg2
 $ for I in *.mp4;
   do
-    ./ffmpeg -i "$I" \
+    ffgac -i "$I" \
              -an -vcodec mpeg2video -f rawvideo \
              -mpv_flags +nopimb \
              -qscale:v 6 \
@@ -88,11 +88,11 @@ $ for I in *.mp4;
   done
 ```
 
-I'll give a brief explanation of each option passed to FFmpeg:
+I'll give a brief explanation of each option passed to `ffgac`:
 - `-an`                disable audio since we only care about cats for now
 - `-vcodec mpeg2video` use MPEG-2 as output codec
 - `-f rawvideo`        output file as raw [MPEG transport stream](https://en.wikipedia.org/wiki/MPEG_transport_stream) (cats don't like avi or anything else)
-- `-mpv_flags +nopimb` this option is ffglitch-specific, it will make FFmpeg not use intra macroblocks for predictive frames and this is awesome (if you want to know exactly what this changes, repeat this entire post without this option and you will see)
+- `-mpv_flags +nopimb` this option is ffgac-specific, it will make `ffgac` not use intra macroblocks for predictive frames and this is awesome (if you want to know exactly what this changes, repeat this entire post without this option and you will see)
 - `-qscale:v 6`        (tweakable) quality factor: the greater the number, the lower the quality, the blockier the cats
 - `-r 30`              (tweakable) set frame rate to 30 frames per second
 - `-g 90`              (tweakable, may be entirely omitted) output an I frame at every 90 frames (3 seconds)
@@ -197,9 +197,9 @@ To have an useful output file, we are going to have to bake the concatenated cat
 4 - Baking the cats
 ===================
 
-Use FFmpeg to bake the cats into a normal h264 mp4 file:
+Use `ffgac` to bake the cats into a normal h264 mp4 file:
 ```bash
-$ ffmpeg -i /tmp/concatenated_cats.mpg -y /tmp/concatenated_cats.mp4
+$ ffgac -i /tmp/concatenated_cats.mpg -y /tmp/concatenated_cats.mp4
 ```
 
 And there you'll have a nice baked datamoshed concatenated cat video.
