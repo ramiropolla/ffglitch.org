@@ -21,12 +21,13 @@ The old way consists of 3 steps:
 
 The new way (since [version 0.9.1]({% post_url 2020-07-13-ffglitch_0_9_1 %})) is a one-step process:
 1. Run `ffedit` with a [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
+(or [Python3](https://en.wikipedia.org/wiki/Python_%28programming_language%29) script since [version 0.9.4]({% post_url 2021-12-20-ffglitch_0_9_4 %}))
 file that glitches the frames one by one.
 
 The new way is much simpler to use, but it has some limitations such as
 working on a single file at a time, and it might involve having to learn
 JavaScript (which might also end up being slower than a script in another
-language).
+language) or Python3.
 
 ### I need examples!
 
