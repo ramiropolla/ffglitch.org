@@ -6,7 +6,7 @@ permalink: /how/
 
 ## How do I use FFglitch?
 
-FFglitch still does not have a nice graphical user interface. It's an ugly command-line based program.
+FFglitch does not have a nice graphical user interface. It is a command-line based program.
 
 There are two ways to use FFglitch.
 

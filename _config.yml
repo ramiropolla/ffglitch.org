@@ -12,9 +12,9 @@ github_username: ramiropolla
 # this and add the path to the pages in order as they should show up
 header_pages:
   - what.md
-  - how.md
   - who.md
   - download.md
+  - documentation.md
   - frontends.md
   - gallery.md
 
@@ -22,6 +22,7 @@ header_pages:
 markdown: kramdown
 theme: minima
 exclude:
+  - blabliblu/
   - Gemfile
   - Gemfile.lock
 

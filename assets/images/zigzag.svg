@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="svg">
+<style>
+.xtable {
+  text-anchor: end;
+  dominant-baseline: central;
+  cursor: default;
+  font-family:monospace;
+  font-size: 11px;
+}
+</style>
+<g class="xtable">
+  <polyline stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke="lightgreen" fill="none" points="21 10 48 10 21 30 21 50 48 30 75 10 102 10 75 30 48 50 21 70 21 90 48 70 75 50 102 30 129 10 156 10 129 30 102 50 75 70 48 90 21 110 21 130 48 110 75 90 102 70 129 50 156 30 183 10 210 10 183 30 156 50 129 70 102 90 75 110 48 130 21 150 48 150 75 130 102 110 129 90 156 70 183 50 210 30 210 50 183 70 156 90 129 110 102 130 75 150 102 150 129 130 156 110 183 90 210 70 210 90 183 110 156 130 129 150 156 150 183 130 210 110 210 130 183 150 210 150"></polyline>
+  <text y="10" x="24">0</text>
+  <text y="10" x="51">1</text>
+  <text y="10" x="78">5</text>
+  <text y="10" x="105">6</text>
+  <text y="10" x="132">14</text>
+  <text y="10" x="159">15</text>
+  <text y="10" x="186">27</text>
+  <text y="10" x="213">28</text>
+  <text y="30" x="24">2</text>
+  <text y="30" x="51">4</text>
+  <text y="30" x="78">7</text>
+  <text y="30" x="105">13</text>
+  <text y="30" x="132">16</text>
+  <text y="30" x="159">26</text>
+  <text y="30" x="186">29</text>
+  <text y="30" x="213">42</text>
+  <text y="50" x="24">3</text>
+  <text y="50" x="51">8</text>
+  <text y="50" x="78">12</text>
+  <text y="50" x="105">17</text>
+  <text y="50" x="132">25</text>
+  <text y="50" x="159">30</text>
+  <text y="50" x="186">41</text>
+  <text y="50" x="213">43</text>
+  <text y="70" x="24">9</text>
+  <text y="70" x="51">11</text>
+  <text y="70" x="78">18</text>
+  <text y="70" x="105">24</text>
+  <text y="70" x="132">31</text>
+  <text y="70" x="159">40</text>
+  <text y="70" x="186">44</text>
+  <text y="70" x="213">53</text>
+  <text y="90" x="24">10</text>
+  <text y="90" x="51">19</text>
+  <text y="90" x="78">23</text>
+  <text y="90" x="105">32</text>
+  <text y="90" x="132">39</text>
+  <text y="90" x="159">45</text>
+  <text y="90" x="186">52</text>
+  <text y="90" x="213">54</text>
+  <text y="110" x="24">20</text>
+  <text y="110" x="51">22</text>
+  <text y="110" x="78">33</text>
+  <text y="110" x="105">38</text>
+  <text y="110" x="132">46</text>
+  <text y="110" x="159">51</text>
+  <text y="110" x="186">55</text>
+  <text y="110" x="213">60</text>
+  <text y="130" x="24">21</text>
+  <text y="130" x="51">34</text>
+  <text y="130" x="78">37</text>
+  <text y="130" x="105">47</text>
+  <text y="130" x="132">50</text>
+  <text y="130" x="159">56</text>
+  <text y="130" x="186">59</text>
+  <text y="130" x="213">61</text>
+  <text y="150" x="24">35</text>
+  <text y="150" x="51">36</text>
+  <text y="150" x="78">48</text>
+  <text y="150" x="105">49</text>
+  <text y="150" x="132">57</text>
+  <text y="150" x="159">58</text>
+  <text y="150" x="186">62</text>
+  <text y="150" x="213">63</text>
+</g>
+</svg>
