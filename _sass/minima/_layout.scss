@@ -251,23 +251,7 @@
 .post-content {
   margin-bottom: $spacing-unit;
 
-  h1 {
-    border-bottom: 1px solid $grey-color-light;
-    counter-increment: h1;
-    counter-reset: h2;
-
-    @include relative-font-size(2.5);
-
-    @include media-query($on-laptop) {
-      @include relative-font-size(2);
-    }
-  }
-
   h2 {
-    border-bottom: 1px solid $grey-color-light;
-    counter-increment: h2;
-    counter-reset: h3;
-
     @include relative-font-size(2);
 
     @include media-query($on-laptop) {
@@ -276,9 +260,6 @@
   }
 
   h3 {
-    counter-increment: h3;
-    counter-reset: h4;
-
     @include relative-font-size(1.625);
 
     @include media-query($on-laptop) {
@@ -292,21 +273,5 @@
     @include media-query($on-laptop) {
       @include relative-font-size(1.125);
     }
-  }
-
-  h1:before {
-      content: counter(h1) " - ";
-  }
-
-  h2:before {
-      content: counter(h1) "." counter(h2) " - ";
-  }
-
-  h3:before {
-      content: counter(h1) "." counter(h2) "." counter(h3) " - ";
-  }
-
-  h4:before {
-      content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) " - ";
   }
 }
