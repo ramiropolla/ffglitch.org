@@ -37,6 +37,9 @@ efficient code which does not need to check for conditions inside loops
 every time. The conditions are tested once to create the `MV2DMask`,
 and then the mask is applied on subsequent calls.
 
+All of `MV2DArray`, `MV2DPtr`, and `MV2DMask` contain a `width` and
+`height` constant property, determined at creation time.
+
 <hr />
 ## MV2DArray Constructor
 
@@ -57,7 +60,7 @@ of the 2-dimensional array to be created.
 of the 2-dimensional array to be created.
 
 ### Return value
-The new object.
+The new `MV2DArray` object.
 
 ### Examples
 ```js
@@ -67,6 +70,10 @@ print(mv2darr);
 //  [[0,0],[0,0],[0,0]],
 //  [[0,0],[0,0],[0,0]]
 // ]
+print(mv2darr.width);
+// 3
+print(mv2darr.height);
+// 2
 ```
 
 <hr />
@@ -85,7 +92,7 @@ new MV2DPtr(source)
 `source` must be either an `MV2DArray` or an `MV2DPtr` object.
 
 ### Return value
-The new object.
+The new `MV2DPtr` object.
 
 ### Examples
 ```js
@@ -111,6 +118,10 @@ print(mv2dptr);
 //  [[0,0],[0,0],[0,0]],
 //  [[0,0],[1,1],[0,0]]
 // ]
+print(mv2dptr.width);
+// 3
+print(mv2dptr.height);
+// 2
 ```
 
 ## MV2DMask Constructor
@@ -131,7 +142,7 @@ of the 2-dimensional mask array to be created.
 of the 2-dimensional mask array to be created.
 
 ### Return value
-The new object.
+The new `MV2DMask` object.
 
 ### Examples
 ```js
@@ -149,6 +160,10 @@ print(mv2dmask);
 //  [false,true,false],
 //  [true,false,true]
 // ]
+print(mv2dmask.width);
+// 3
+print(mv2dmask.height);
+// 2
 ```
 
 <hr />
@@ -235,57 +250,239 @@ print(mv2darr.subarray([1,1], [3,2]));
 
 <!-- ## MV2DArray.prototype.set() -->
 
-====================================
-
 <hr />
 ## MV2DArray.prototype.fill()
 
-The `fill()` method fills all the motion vectors of an array from an
-`start` index to an `end` index with a static `value`.
+The `fill()` method fills all the motion vectors of a 2-dimensional
+array from an `start` index to an `end` index with a motion vector
+`mv`.
 
 ### Syntax
 ```js
-fill(value)
-fill(value, start)
-fill(value, start, end)
+fill(mv)
+fill(mv, start)
+fill(mv, start, end)
 ```
 
 ### Parameters
-`value` to fill the array with.
+`mv` to fill the array with.
 
-`start` (optional) is the index where the filling starts.
-If this value is omitted, `start` is `0`.
+`start` (optional) is the `[horizontal, vertical]` index where the
+filling starts.
+If this value is omitted, `begin` is `[0,0]`.
 
-`end` (optional) is the index where the filling ends.
-If this value is omitted, `end` is `length`.
+`end` (optional) is the end `[horizontal, vertical]` index where the
+filling starts.
+If this value is omitted, `end` is `[width,height]`.
 
 **Note**: the `start` and `end` parameters can contain negative values.
 In that case, the values wrap around from the last index.
 
 ### Return value
-The modified array.
+The modified 2-dimensional motion vector array.
 
 ### Examples
 ```js
-const mv2darr = new MV2DArray(6);
-print(mv2darr);                       // [0,0],[0,0],[0,0],[0,0],[0,0],[0,0]
-print(mv2darr.fill(MV(1,1)));         // [1,1],[1,1],[1,1],[1,1],[1,1],[1,1]
-print(mv2darr.fill(MV(2,2), 4));      // [1,1],[1,1],[1,1],[1,1],[2,2],[2,2]
-print(mv2darr.fill(MV(3,3), 2, 4));   // [1,1],[1,1],[3,3],[3,3],[2,2],[2,2]
-print(mv2darr.fill(MV(4,4), -4, -2)); // [1,1],[1,1],[4,4],[4,4],[2,2],[2,2]
-print(mv2darr.fill(MV(5,5), -4, 4));  // [1,1],[1,1],[5,5],[5,5],[2,2],[2,2]
+const mv2darr = new MV2DArray(3, 2);
+print(mv2darr);
+// [
+//  [[0,0],[0,0],[0,0]],
+//  [[0,0],[0,0],[0,0]]
+// ]
+print(mv2darr.fill(MV(1,1)));
+// [
+//  [[1,1],[1,1],[1,1]],
+//  [[1,1],[1,1],[1,1]]
+// ]
+print(mv2darr.fill(MV(2,2), [1,0]));
+// [
+//  [[1,1],[2,2],[2,2]],
+//  [[1,1],[2,2],[2,2]]
+// ]
+print(mv2darr.fill(MV(3,3), [1,0], [2,2]));
+// [
+//  [[1,1],[3,3],[2,2]],
+//  [[1,1],[3,3],[2,2]]
+// ]
 ```
 
-<!-- ## MV2DArray.prototype.reverse() -->
+<hr />
+## MVArray.prototype.reverse()
+
+The `reverse()` method reverses all motion vectors in the 2-dimensional
+array **in-place**, both horizontally and vertically.
+This operation applies to the entire 2-dimensional array (there are no
+range arguments).
+If you want to reverse just a small chunk of the array, use the
+`subarray()` method and call `reverse()` on that.
+
+### Syntax
+```js
+reverse()
+```
+
+### Return value
+The modified 2-dimensional motion vector array.
+
+### Examples
+```js
+const mv2darr = new MV2DArray(3, 4);
+mv2darr.forEach((mv, i, j) => mv.assign(MV(i,j)));
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]],
+//  [[2,0],[2,1],[2,2]],
+//  [[3,0],[3,1],[3,2]]
+// ]
+print(mv2darr.reverse());
+// [
+//  [[3,2],[3,1],[3,0]],
+//  [[2,2],[2,1],[2,0]],
+//  [[1,2],[1,1],[1,0]],
+//  [[0,2],[0,1],[0,0]]
+// ]
+const subarray = mv2darr.subarray([1,1], [3,3]);
+print(subarray);
+// [
+//  [[2,1],[2,0]],
+//  [[1,1],[1,0]]
+// ]
+print(subarray.reverse());
+// [
+//  [[1,0],[1,1]],
+//  [[2,0],[2,1]]
+// ]
+print(mv2darr);
+// [
+//  [[3,2],[3,1],[3,0]],
+//  [[2,2],[1,0],[1,1]],
+//  [[1,2],[2,0],[2,1]],
+//  [[0,2],[0,1],[0,0]]
+// ]
+```
+
+<hr />
+## MVArray.prototype.reverse_h()
+
+The `reverse_h()` method reverses all motion vectors in the
+2-dimensional array **in-place**, but only horizontally.
+This operation applies to the entire 2-dimensional array (there are no
+range arguments).
+If you want to horizontally reverse just a small chunk of the array,
+use the `subarray()` method and call `reverse_h()` on that.
+
+### Syntax
+```js
+reverse_h()
+```
+
+### Return value
+The modified 2-dimensional motion vector array.
+
+### Examples
+```js
+const mv2darr = new MV2DArray(3, 4);
+mv2darr.forEach((mv, i, j) => mv.assign(MV(i,j)));
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]],
+//  [[2,0],[2,1],[2,2]],
+//  [[3,0],[3,1],[3,2]]
+// ]
+print(mv2darr.reverse_h());
+// [
+//  [[0,2],[0,1],[0,0]],
+//  [[1,2],[1,1],[1,0]],
+//  [[2,2],[2,1],[2,0]],
+//  [[3,2],[3,1],[3,0]]
+// ]
+const subarray = mv2darr.subarray([1,1], [3,3]);
+print(subarray);
+// [
+//  [[1,1],[1,0]],
+//  [[2,1],[2,0]]
+// ]
+print(subarray.reverse_h());
+// [
+//  [[1,0],[1,1]],
+//  [[2,0],[2,1]]
+// ]
+print(mv2darr);
+// [
+//  [[0,2],[0,1],[0,0]],
+//  [[1,2],[1,0],[1,1]],
+//  [[2,2],[2,0],[2,1]],
+//  [[3,2],[3,1],[3,0]]
+// ]
+```
+
+<hr />
+## MVArray.prototype.reverse_v()
+
+The `reverse_v()` method reverses all motion vectors in the
+2-dimensional array **in-place**, but only vertically.
+This operation applies to the entire 2-dimensional array (there are no
+range arguments).
+If you want to vertically reverse just a small chunk of the array, use
+the `subarray()` method and call `reverse_v()` on that.
+
+### Syntax
+```js
+reverse_v()
+```
+
+### Return value
+The modified 2-dimensional motion vector array.
+
+### Examples
+```js
+const mv2darr = new MV2DArray(3, 4);
+mv2darr.forEach((mv, i, j) => mv.assign(MV(i,j)));
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]],
+//  [[2,0],[2,1],[2,2]],
+//  [[3,0],[3,1],[3,2]]
+// ]
+print(mv2darr.reverse_v());
+// [
+//  [[3,0],[3,1],[3,2]],
+//  [[2,0],[2,1],[2,2]],
+//  [[1,0],[1,1],[1,2]],
+//  [[0,0],[0,1],[0,2]]
+// ]
+const subarray = mv2darr.subarray([1,1], [3,3]);
+print(subarray);
+// [
+//  [[2,1],[2,2]],
+//  [[1,1],[1,2]]
+// ]
+print(subarray.reverse_v());
+// [
+//  [[1,1],[1,2]],
+//  [[2,1],[2,2]]
+// ]
+print(mv2darr);
+// [
+//  [[3,0],[3,1],[3,2]],
+//  [[2,0],[1,1],[1,2]],
+//  [[1,0],[2,1],[2,2]],
+//  [[0,0],[0,1],[0,2]]
+// ]
+```
+
 <!-- ## MV2DArray.prototype.sort() -->
 
 <hr />
 ## MV2DArray.prototype.slice()
 
-The `slice()` method returns a new `MV2DArray` object with a copy of the
-data specified in the (optional) `start` and `end` range arguments.
-If no range is specified, the entire array is copied, effectively
-performing a `deep copy` of the current object.
+The `slice()` method returns a new `MV2DArray` object with a copy of
+the data specified in the (optional) `start` and `end` range arguments.
+If no range is specified, the entire 2-dimensional array is copied,
+effectively performing a `deep copy` of the current object.
 
 ### Syntax
 ```js
@@ -295,41 +492,46 @@ slice(start, end)
 ```
 
 ### Parameters
-`start` (optional) is the index where the copying starts.
-If this value is omitted, `start` is `0`.
+`start` (optional) is the `[horizontal, vertical]` index where the
+filling starts.
+If this value is omitted, `begin` is `[0,0]`.
 
-`end` (optional) is the index where the copying ends.
-If this value is omitted, `end` is `length`.
+`end` (optional) is the end `[horizontal, vertical]` index where the
+filling starts.
+If this value is omitted, `end` is `[width,height]`.
 
 **Note**: the `start` and `end` parameters can contain negative values.
 In that case, the values wrap around from the last index.
 
 ### Return value
-The new object.
+The new `MV2DArray` object.
 
 ### Examples
 ```js
-const mv2darr = new MV2DArray(6);
-for ( let i = 0; i < 6; i++ ) mv2darr[i] = MV(i,i);
-const mv2dptr = new MV2DPtr(mv2darr);
-const mvslc = mv2darr.slice();
-print(mv2darr instanceof MV2DArray);    // true
-print(mv2dptr instanceof MV2DPtr);      // true
-print(mvslc instanceof MV2DArray);    // true
-print(mvslc instanceof MV2DPtr);      // false
-print(mv2darr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
-print(mv2dptr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
-print(mvslc);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
-mvslc.fill(MV(1,1));
-print(mv2darr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
-print(mv2dptr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
-print(mvslc);                       // [1,1],[1,1],[1,1],[1,1],[1,1],[1,1]
-print(mv2darr.slice(2));              // [2,2],[3,3],[4,4],[5,5]
-print(mv2darr.slice(-4));             // [2,2],[3,3],[4,4],[5,5]
-print(mv2darr.slice(2, 4));           // [2,2],[3,3]
-print(mv2darr.slice(2, -2));          // [2,2],[3,3]
-print(mv2darr.slice(-4, -2));         // [2,2],[3,3]
-print(mv2darr.slice(-4, 4));          // [2,2],[3,3]
+const mv2darr = new MV2DArray(3, 2);
+mv2darr.forEach((mv,i,j) => mv.assign(MV(i,j)));
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]]
+// ]
+const mv2dslc = mv2darr.slice();
+mv2dslc[1][1] = MV(3,3);
+print(mv2dslc);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[3,3],[1,2]]
+// ]
+print(mv2darr.slice([1,0]));
+// [
+//  [[0,1],[0,2]],
+//  [[1,1],[1,2]]
+// ]
+print(mv2darr.slice([1,0], [2,2]));
+// [
+//  [[0,1]],
+//  [[1,1]]
+// ]
 ```
 
 <hr />
@@ -344,41 +546,53 @@ dup()
 ```
 
 ### Return value
-The new object.
+The new `MV2DArray` object.
 
 ### Examples
 ```js
-const mv2darr = new MV2DArray(6);
-for ( let i = 0; i < 6; i++ ) mv2darr[i] = MV(i,i);
-print(mv2darr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
-const mvdup = mv2darr.dup();
-print(mvdup);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
-mv2darr[1] = MV(-1,-1);
-mvdup[1] = MV(-2,-2);
-print(mv2darr);                       // [0,0],[-1,-1],[2,2],[3,3],[4,4],[5,5]
-print(mvdup);                       // [0,0],[-2,-2],[2,2],[3,3],[4,4],[5,5]
+const mv2darr = new MV2DArray(3, 2);
+mv2darr.forEach((mv,i,j) => mv.assign(MV(i,j)));
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]]
+// ]
+const mv2ddup = mv2darr.dup();
+mv2ddup[1][1] = MV(3,3);
+print(mv2ddup);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[3,3],[1,2]]
+// ]
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]]
+// ]
 ```
 
 <hr />
 ## MV2DArray.prototype.every()
 
-The `every()` method tests whether **every** motion vector in the array
-passes the test implemented by the `callbackFn` function.
+The `every()` method tests whether **every** motion vector in the
+2-dimensional array passes the test implemented by the `callbackFn`
+function.
 If any motion vector **does not** pass the test, the method returns
 early with `false`.
 
 ### Syntax
 ```js
-every(callbackFn(mv, index, array))
-every(callbackFn(mv, index, array), thisArg)
+every(callbackFn(mv, i, j, array))
+every(callbackFn(mv, i, j, array), thisArg)
 ```
 
 ### Parameters
 `callbackFn` is a function (`inline`, `arrow`, or normal) that is
-called for each motion vector of the array.
+called for each motion vector of the 2-dimensional array.
 The function's parameters are `mv` (an `MVRef` to the current motion
-vector being tested), `index` (the index it corresponds to in the
-array), and `array` (the array itself).
+vector being tested), `i` (the vertical index it corresponds to in the
+2-dimensional array), `j` (the horizontal index it correspons to in the
+2-dimensional array), and `array` (the 2-dimensional array itself).
 The function should return either `true` or `false`.
 
 `thisArg` (optional) is a value to use as `this` when executing
@@ -389,42 +603,40 @@ The function should return either `true` or `false`.
 
 ### Examples
 ```js
-const mv2darr = new MV2DArray(6);
-for ( let i = 0; i < 6; i++ ) mv2darr[i] = MV(i,i);
-print(mv2darr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
+const mv2darr = new MV2DArray(3, 2);
+mv2darr.forEach((mv,i,j) => mv.assign(MV(i,j)));
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]]
+// ]
+print(mv2darr.every((mv,i,j) => mv[0] == i && j == mv[1])); // true
 print(mv2darr.every((mv) => mv[0] >= 0)); // true
 print(mv2darr.every((mv) => mv[0] > 0)); // false
-function is_monotonic(mv, i, arr) {
-    if ( i > 0 )
-        return mv[0] > arr[i-1][0] && mv[1] > arr[i-1][1];
-    return true;
-}
-print(mv2darr.every(is_monotonic));   // true
-mv2darr[3] = MV(-1,-1);
-print(mv2darr);                       // [0,0],[1,1],[2,2],[-1,-1],[4,4],[5,5]
-print(mv2darr.every(is_monotonic));   // false
 ```
 
 <hr />
 ## MV2DArray.prototype.some()
 
 The `some()` method tests whether **at least one** motion vector in the
-array passes the test implemented by the `callbackFn` function.
+2-dimensional array passes the test implemented by the `callbackFn`
+function.
 If any motion vector **does** pass the test, the method returns early
 with `true`.
 
 ### Syntax
 ```js
-some(callbackFn(mv, index, array))
-some(callbackFn(mv, index, array), thisArg)
+some(callbackFn(mv, i, j, array))
+some(callbackFn(mv, i, j, array), thisArg)
 ```
 
 ### Parameters
 `callbackFn` is a function (`inline`, `arrow`, or normal) that is
-called for each motion vector of the array.
+called for each motion vector of the 2-dimensional array.
 The function's parameters are `mv` (an `MVRef` to the current motion
-vector being tested), `index` (the index it corresponds to in the
-array), and `array` (the array itself).
+vector being tested), `i` (the vertical index it corresponds to in the
+2-dimensional array), `j` (the horizontal index it correspons to in the
+2-dimensional array), and `array` (the 2-dimensional array itself).
 The function should return either `true` or `false`.
 
 `thisArg` (optional) is a value to use as `this` when executing
@@ -435,9 +647,13 @@ The function should return either `true` or `false`.
 
 ### Examples
 ```js
-const mv2darr = new MV2DArray(6);
-for ( let i = 0; i < 6; i++ ) mv2darr[i] = MV(i,i);
-print(mv2darr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
+const mv2darr = new MV2DArray(3, 2);
+mv2darr.forEach((mv,i,j) => mv.assign(MV(i,j)));
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]]
+// ]
 print(mv2darr.some((mv) => mv[0] <= 0)); // true
 print(mv2darr.some((mv) => mv[0] < 0)); // false
 ```
@@ -446,28 +662,30 @@ print(mv2darr.some((mv) => mv[0] < 0)); // false
 ## MV2DArray.prototype.forEach()
 
 The `forEach()` method calls the `callbackFn` function for each motion
-vector of the array. It has the same functionality as calling the code
-below, but it's slightly faster.
+vector of the 2-dimensional array. It has the same functionality as
+calling the code below, but it's slightly faster.
 Note that you **can** modify `mv` directly, since it is passed as an
 `MVRef`.
 
 ```js
-for ( let i = 0; i < arr.length; i++ )
-    callbackFn(arr[i], i, arr);
+for ( let i = 0; i < mv2darr.height; i++ )
+    for ( let j = 0; j < mv2darr.height; j++ )
+        callbackFn(mv2darr[i][j], i, j, mv2darr);
 ```
 
 ### Syntax
 ```js
-forEach(callbackFn(mv, index, array))
-forEach(callbackFn(mv, index, array), thisArg)
+forEach(callbackFn(mv, i, j, array))
+forEach(callbackFn(mv, i, j, array), thisArg)
 ```
 
 ### Parameters
 `callbackFn` is a function (`inline`, `arrow`, or normal) that is
-called for each motion vector of the array.
+called for each motion vector of the 2-dimensional array.
 The function's parameters are `mv` (an `MVRef` to the current motion
-vector being tested), `index` (the index it corresponds to in the
-array), and `array` (the array itself).
+vector being tested), `i` (the vertical index it corresponds to in the
+2-dimensional array), `j` (the horizontal index it correspons to in the
+2-dimensional array), and `array` (the 2-dimensional array itself).
 
 `thisArg` (optional) is a value to use as `this` when executing
 `callbackFn`.
@@ -477,48 +695,62 @@ array), and `array` (the array itself).
 
 ### Examples
 ```js
-const mv2darr = new MV2DArray(6);
-for ( let i = 0; i < 6; i++ ) mv2darr[i] = MV(i,i);
-print(mv2darr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
-mv2darr.forEach((mv, i, arr) => mv = MV(4,4));
-print(mv2darr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
+const mv2darr = new MV2DArray(3, 2);
+mv2darr.forEach((mv,i,j) => mv.assign(MV(i,j)));
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]]
+// ]
+mv2darr.forEach((mv) => mv = MV(4,4));
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]]
+// ]
 // Note that the previous call to `forEach()` did not modify the array
-// since the local variable mv was replaced instead of changed.
-mv2darr.forEach((mv, i, arr) => mv.assign(MV(i+2,i+2)));
-print(mv2darr);                       // [2,2],[3,3],[4,4],[5,5],[6,6],[7,7]
-function is_four_four(mv, i, arr) {
-    let not_str = (mv.compare_neq(4,4)) ? "not " : "";
-    print(`mv [${i}] is ${mv}, which is ${not_str}[four,four]`);
+// since the scoped variable mv was replaced instead of modified.
+mv2darr.forEach((mv) => mv[0] = 0);
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[0,0],[0,1],[0,2]]
+// ]
+function is_zero_zero(mv, i, j) {
+    let not_str = (mv.compare_neq(0,0)) ? "not " : "";
+    print(`mv [${i}][${j}] is ${mv}, which is ${not_str}[zero,zero]`);
 }
-mv2darr.forEach(is_four_four);
-mv [0] is [2,2], which is not [four,four]
-mv [1] is [3,3], which is not [four,four]
-mv [2] is [4,4], which is [four,four]
-mv [3] is [5,5], which is not [four,four]
-mv [4] is [6,6], which is not [four,four]
-mv [5] is [7,7], which is not [four,four]
+mv2darr.forEach(is_zero_zero);
+// mv [0][0] is [0,0], which is [zero,zero]
+// mv [0][1] is [0,1], which is not [zero,zero]
+// mv [0][2] is [0,2], which is not [zero,zero]
+// mv [1][0] is [0,0], which is [zero,zero]
+// mv [1][1] is [0,1], which is not [zero,zero]
+// mv [1][2] is [0,2], which is not [zero,zero]
 ```
 
 <hr />
 ## MV2DArray.prototype.maskedForEach()
 
 The `maskedForEach()` method calls the `callbackFn` function for each
-motion vector of the array that is selected by the `mv2dmask` argument.
+motion vector of the 2-dimensional array that is selected by the
+`mv2dmask` argument.
 It has the same functionality as calling the code below, but it's
 slightly faster.
 Note that you **can** modify `mv` directly, since it is passed as an
 `MVRef`.
 
 ```js
-for ( let i = 0; i < arr.length; i++ )
-    if ( mv2dmask[i] )
-        callbackFn(arr[i], i, arr);
+for ( let i = 0; i < mv2darr.height; i++ )
+    for ( let j = 0; j < mv2darr.height; j++ )
+        if ( mv2dmask[i][j] )
+            callbackFn(mv2darr[i][j], i, j, mv2darr);
 ```
 
 ### Syntax
 ```js
-maskedForEach(mv2dmask, callbackFn(mv, index, array))
-maskedForEach(mv2dmask, callbackFn(mv, index, array), thisArg)
+maskedForEach(mv2dmask, callbackFn(mv, i, j, array))
+maskedForEach(mv2dmask, callbackFn(mv, i, j, array), thisArg)
 ```
 
 ### Parameters
@@ -526,11 +758,11 @@ maskedForEach(mv2dmask, callbackFn(mv, index, array), thisArg)
 `callbackFn` function should be called on.
 
 `callbackFn` is a function (`inline`, `arrow`, or normal) that is
-called for each motion vector of the array that is selected by the
-`mv2dmask` argument.
+called for each motion vector of the 2-dimensional array.
 The function's parameters are `mv` (an `MVRef` to the current motion
-vector being tested), `index` (the index it corresponds to in the
-array), and `array` (the array itself).
+vector being tested), `i` (the vertical index it corresponds to in the
+2-dimensional array), `j` (the horizontal index it correspons to in the
+2-dimensional array), and `array` (the 2-dimensional array itself).
 
 `thisArg` (optional) is a value to use as `this` when executing
 `callbackFn`.
@@ -540,53 +772,73 @@ array), and `array` (the array itself).
 
 ### Examples
 ```js
-const mv2darr = new MV2DArray(6);
-for ( let i = 0; i < 6; i++ ) mv2darr[i] = MV(i,i);
-print(mv2darr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
-const mv2dmask = new MV2DMask(6);
-for ( let i = 0; i < 6; i++ ) mv2dmask[i] = (i&1);
-print(mv2dmask);                      // false,true,false,true,false,true
-mv2darr.maskedForEach(mv2dmask, (mv) => mv.clear());
-print(mv2darr);                       // [0,0],[0,0],[2,2],[0,0],[4,4],[0,0]
+const mv2darr = new MV2DArray(3, 2);
+mv2darr.forEach((mv,i,j) => mv.assign(MV(i,j)));
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]]
+// ]
+const mv2dmask = new MV2DMask(3, 2);
+mv2dmask.forEach((_,i,j,arr) => arr[i][j] = (i == j));
+print(mv2dmask);
+// [
+//  [true,false,false],
+//  [false,true,false]
+// ]
+mv2darr.maskedForEach(mv2dmask, (mv) => mv.assign(MV(3,3)));
+print(mv2darr);
+// [
+//  [[3,3],[0,1],[0,2]],
+//  [[1,0],[3,3],[1,2]]
+// ]
 ```
 
 <hr />
 ## MV2DArray.prototype.map()
 
 The `map()` method creates a new `MV2DArray` and calls the `callbackFn`
-on each motion vector of the source array, storing the result in the
-corresponding motion vector in the new array.
+on each motion vector of the 2-dimensional source array, storing the
+result in the corresponding motion vector in the new 2-dimensional
+array.
 
 ### Syntax
 ```js
-map(callbackFn(mv, index, array))
-map(callbackFn(mv, index, array), thisArg)
+map(callbackFn(mv, i, j, array))
+map(callbackFn(mv, i, j, array), thisArg)
 ```
 
 ### Parameters
 `callbackFn` is a function (`inline`, `arrow`, or normal) that is
-called for each motion vector of the array.
+called for each motion vector of the 2-dimensional array.
 The function's parameters are `mv` (an `MVRef` to the current motion
-vector being tested), `index` (the index it corresponds to in the
-array), and `array` (the array itself).
+vector being tested), `i` (the vertical index it corresponds to in the
+2-dimensional array), `j` (the horizontal index it correspons to in the
+2-dimensional array), and `array` (the 2-dimensional array itself).
 The function should return a motion vector value to be stored in the
-new array.
+new 2-dimensional array.
 
 `thisArg` (optional) is a value to use as `this` when executing
 `callbackFn`.
 
 ### Return value
-The new array.
+The new `MV2DArray` object.
 
 ### Examples
 ```js
-const mv2darr = new MV2DArray(6);
-for ( let i = 0; i < 6; i++ ) mv2darr[i] = MV(i,i);
-print(mv2darr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
-const mvmap = mv2darr.map((mv) => MV(mv[0]*mv[0],mv[1]*mv[1]));
-print(mvmap instanceof MV2DArray);    // true
-print(mv2darr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
-print(mvmap);                       // [0,0],[1,1],[4,4],[9,9],[16,16],[25,25]
+const mv2darr = new MV2DArray(3, 2);
+mv2darr.forEach((mv,i,j) => mv.assign(MV(i,j)));
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]]
+// ]
+const mv2dmap = mv2darr.map((mv) => MV(mv[0]+2,mv[1]+2));
+print(mv2dmap);
+// [
+//  [[2,2],[2,3],[2,4]],
+//  [[3,2],[3,3],[3,4]]
+// ]
 ```
 
 <!-- ## MV2DArray.prototype.find() -->
@@ -605,7 +857,8 @@ print(mvmap);                       // [0,0],[1,1],[4,4],[9,9],[16,16],[25,25]
 
 The `largest_sq()` method returns an `[ index, mv.magnitude_sq() ]`
 array with the index and the value of the squared magnitude of the
-motion vector with the largest squared magnitude in the array.
+motion vector with the largest squared magnitude in the 2-dimensional
+array.
 
 ### Syntax
 ```js
@@ -613,15 +866,19 @@ largest_sq()
 ```
 
 ### Return value
-`[ index, mv.magnitude_sq() ]` of the largest motion vector.
+An `[ i, j, mv.magnitude_sq() ]` array of the largest motion vector.
 
 ### Examples
 ```js
-const mv2darr = new MV2DArray(4);
-for ( let i = 0; i < 4; i++ ) mv2darr[i] = MV(i+2,i+2);
-print(mv2darr);                       // [2,2],[3,3],[4,4],[5,5]
-print(mv2darr.largest_sq());          // 3,50
-// array element 3 ([5,5]) has a squared magnitude of 5*5+5*5 = 50.
+const mv2darr = new MV2DArray(3, 2);
+mv2darr.forEach((mv,i,j) => mv.assign(MV(i+2,j+2)));
+print(mv2darr);
+// [
+//  [[2,2],[2,3],[2,4]],
+//  [[3,2],[3,3],[3,4]]
+// ]
+print(mv2darr.largest_sq());        // 1,2,25
+// array element [1][2] ([3,4]) has a squared magnitude of 3*3+4*4 = 25.
 ```
 
 <hr />
@@ -629,7 +886,8 @@ print(mv2darr.largest_sq());          // 3,50
 
 The `smallest_sq()` method returns an `[ index, mv.magnitude_sq() ]`
 array with the index and the value of the squared magnitude of the
-motion vector with the smallest squared magnitude in the array.
+motion vector with the smallest squared magnitude in the 2-dimensional
+array.
 
 ### Syntax
 ```js
@@ -637,22 +895,28 @@ smallest_sq()
 ```
 
 ### Return value
-`[ index, mv.magnitude_sq() ]` of the smallest motion vector.
+An `[ i, j, mv.magnitude_sq() ]` array of the smallest motion vector.
 
 ### Examples
 ```js
-const mv2darr = new MV2DArray(4);
-for ( let i = 0; i < 4; i++ ) mv2darr[i] = MV(i+2,i+2);
-print(mv2darr);                       // [2,2],[3,3],[4,4],[5,5]
-print(mv2darr.smallest_sq());         // 0,8
-// array element 0 ([2,2]) has a squared magnitude of 2*2+2*2 = 8.
+const mv2darr = new MV2DArray(3, 2);
+mv2darr.forEach((mv,i,j) => mv.assign(MV(i+2,j+2)));
+print(mv2darr);
+// [
+//  [[2,2],[2,3],[2,4]],
+//  [[3,2],[3,3],[3,4]]
+// ]
+print(mv2darr.smallest_sq());       // 0,0,8
+// array element [0][0] ([2,2]) has a squared magnitude of 2*2+2*2 = 8.
 ```
 
 <hr />
 ## MV2DArray.prototype.swap_hv()
 
 The `swap_hv()` method swaps the horizontal and vertical elements of
-all the motion vectors in the array **in-place**.
+all the motion vectors in the 2-dimensional array **in-place**.
+If you want to swap just a small chunk of the 2-dimensional array, use
+the `subarray()` method and call `swap_hv()` on that.
 
 ### Syntax
 ```js
@@ -660,22 +924,36 @@ swap_hv()
 ```
 
 ### Return value
-The modified array.
+The modified 2-dimensional motion vector array.
 
 ### Examples
 ```js
-const mv2darr = new MV2DArray(4);
-for ( let i = 0; i < 4; i++ ) mv2darr[i] = MV(i,-i);
-print(mv2darr);                       // [0,0],[1,-1],[2,-2],[3,-3]
-print(mv2darr.swap_hv());             // [0,0],[-1,1],[-2,2],[-3,3]
-print(mv2darr);                       // [0,0],[-1,1],[-2,2],[-3,3]
+const mv2darr = new MV2DArray(3, 2);
+mv2darr.forEach((mv,i,j) => mv.assign(MV(i,j)));
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]]
+// ]
+print(mv2darr.swap_hv());
+// [
+//  [[0,0],[1,0],[2,0]],
+//  [[0,1],[1,1],[2,1]]
+// ]
+print(mv2darr);
+// [
+//  [[0,0],[1,0],[2,0]],
+//  [[0,1],[1,1],[2,1]]
+// ]
 ```
 
 <hr />
 ## MV2DArray.prototype.clear()
 
 The `clear()` method zeroes the horizontal and vertical elements of all
-of the motion vectors in the array **in-place**.
+of the motion vectors in the 2-dimensional array **in-place**.
+If you want to clear just a small chunk of the 2-dimensional array, use
+the `subarray()` method and call `clear()` on that.
 
 ### Syntax
 ```js
@@ -683,15 +961,27 @@ clear()
 ```
 
 ### Return value
-The modified motion vector.
+The modified 2-dimensional motion vector array.
 
 ### Examples
 ```js
-const mv2darr = new MV2DArray(4);
-for ( let i = 0; i < 4; i++ ) mv2darr[i] = MV(i,-i);
-print(mv2darr);                       // [0,0],[1,-1],[2,-2],[3,-3]
-print(mv2darr.clear());               // [0,0],[0,0],[0,0],[0,0]
-print(mv2darr);                       // [0,0],[0,0],[0,0],[0,0]
+const mv2darr = new MV2DArray(3, 2);
+mv2darr.forEach((mv,i,j) => mv.assign(MV(i,j)));
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]]
+// ]
+print(mv2darr.clear());
+// [
+//  [[0,0],[0,0],[0,0]],
+//  [[0,0],[0,0],[0,0]]
+// ]
+print(mv2darr);
+// [
+//  [[0,0],[0,0],[0,0]],
+//  [[0,0],[0,0],[0,0]]
+// ]
 ```
 
 <hr />
@@ -709,28 +999,36 @@ assign()
 The arguments passed to the methods above should first start with a
 source of motion vectors, and then an optional mask.
 
-The source of motion vectors should be either an `MV2DArray` (of the same
-length as the array), `null` (only for the `assign` operation), an
-`MV` constant, an `MV` object, or an `MVRef` object, or a motion vector
-specified in terms of its horizontal and vertical components.
+The source of motion vectors should be either an `MV2DArray` (of the
+same width/height as the 2-dimensional array), an `MVArray` (of the
+same length as the 2-dimensional array's width), `null` (only for the
+`assign` operation), an `MV` constant, an `MV` object, or an `MVRef`
+object, or a motion vector specified in terms of its horizontal and
+vertical components.
 
-The `mv2dmask` argument is optional, and it must be of type `MV2DMask`. If
-a mask is supplied, the operation is only applied to the motion vectors
-selected by the mask.
+The `mask` argument is optional, and it should be either an `MV2DMask`
+(of the same width/height as the 2-dimensional array), or an `MVMask`
+(of the same length as the 2-dimensional array's width). If a mask is
+supplied, the operation is only applied to the motion vectors selected
+by the mask.
 
 The operations do exactly what the names mean. `add()` will add the
-argument to the motion vector array, `sub()` will subtract, `mul()`
-will multiply, `div()` will divide (rounding to nearest), and
-`assign()` will assign (just copy).
+argument to the 2-dimensional motion vector array, `sub()` will
+subtract, `mul()` will multiply, `div()` will divide (rounding to
+nearest integer), and `assign()` will assign (just copy).
 
 If the motion vector source is a single motion vector, that motion
-vector will be applied to the entire array. If the motion vector source
-is an `MV2DArray`, each element in the `MV2DArray` will be applied to the
-corresponding element of the array.
+vector will be applied to the entire 2-dimensional array. If the motion
+vector source is an `MV2DArray`, each element in the `MV2DArray` will
+be applied to the corresponding element of the 2-dimensional array. If
+the motion vector source is an `MVArray`, each element in the `MVArray`
+will be applied to the corresponding element of each row of the
+2-dimensional array.
 
 There are also similar methods that operate only on the horizontal or
-vertical elements of the motion vector array. These methods have either
-`_h` (horizontal) or `_v` (vertical) appended to the names.
+vertical elements of the 2-dimensional motion vector array. These
+methods have either `_h` (horizontal) or `_v` (vertical) appended to
+the names.
 These methods also take a mandatory source of motion vectors as
 argument, and then an optional mask. They can also take only one
 argument (the `horizontal` or `vertical` element) as motion vector
@@ -752,33 +1050,41 @@ assign_v()
 ### Syntax
 ```js
 mathOp(mv2darray)
+mathOp(mvarray)
 mathOp(null)
 mathOp(mv)
 mathOp(horizontal, vertical)
-mathOp(mv2darray, mv2dmask)
-mathOp(null, mv2dmask)
-mathOp(mv, mv2dmask)
-mathOp(horizontal, vertical, mv2dmask)
+mathOp(mv2darray, mask)
+mathOp(mvarray, mask)
+mathOp(null, mask)
+mathOp(mv, mask)
+mathOp(horizontal, vertical, mask)
 mathOp_h(mv2darray)
+mathOp_h(mvarray)
 mathOp_h(mv)
 mathOp_h(horizontal, vertical)
 mathOp_h(horizontal)
-mathOp_h(mv2darray, mv2dmask)
-mathOp_h(mv, mv2dmask)
-mathOp_h(horizontal, vertical, mv2dmask)
-mathOp_h(horizontal, mv2dmask)
+mathOp_h(mv2darray, mask)
+mathOp_h(mvarray, mask)
+mathOp_h(mv, mask)
+mathOp_h(horizontal, vertical, mask)
+mathOp_h(horizontal, mask)
 mathOp_v(mv2darray)
+mathOp_v(mvarray)
 mathOp_v(mv)
 mathOp_v(horizontal, vertical)
 mathOp_v(vertical)
-mathOp_v(mv2darray, mv2dmask)
-mathOp_v(mv, mv2dmask)
-mathOp_v(horizontal, vertical, mv2dmask)
-mathOp_v(vertical, mv2dmask)
+mathOp_v(mv2darray, mask)
+mathOp_v(mvarray, mask)
+mathOp_v(mv, mask)
+mathOp_v(horizontal, vertical, mask)
+mathOp_v(vertical, mask)
 ```
 
 ### Parameters
 `mv2darray` (optional) is an `MV2DArray` object.
+
+`mvarray` (optional) is an `MVArray` object.
 
 `mv` (optional) must be either an `MV` constant, an `MV` object, or an `MVRef` object.
 
@@ -786,177 +1092,310 @@ mathOp_v(vertical, mv2dmask)
 
 `vertical` (optional) is the vertical component of the motion vector.
 
-`mv2dmask` (optional) is an `MV2DMask` that specifies on which motion
-vectors of the array the operation should be carried out on.
+`mask` (optional) is either an `MV2DMask` that specifies on which
+motion vectors of the 2-dimensional array the operation should be
+carried out on, or an `MVMask` that specifies on which motion vectors
+for each row of the 2-dimensional array the operation should be carried
+out on.
 
 ### Return value
-The modified motion vector.
+The modified 2-dimensional motion vector array.
 
 ### Examples
 ```js
-const mv12 = MV(1,2);
-const mv2darr = new MV2DArray(4);
-for ( let i = 0; i < 4; i++ ) mv2darr[i] = MV(i,i);
-const mv2darr2 = mv2darr.dup().reverse();
-const mv2dmask = new MV2DMask(4);
-for ( let i = 0; i < 4; i++ ) mv2dmask[i] = (i&1);
-print(mv2darr2);                      // [3,3],[2,2],[1,1],[0,0]
-print(mv2dmask);                      // false,true,false,true
+// create sources of motion vectors
+const mv2dsrc = new MV2DArray(3, 2);
+mv2dsrc.forEach((_,i,j,arr) => arr[i][j] = MV(i+j+1,i-j-1));
+const mvarr = mv2dsrc[0].dup();
+const mvsrc = new MV(mvarr[0]);
+print(mv2dsrc instanceof MV2DArray); // true
+print(mvarr instanceof MVArray);     // true
+print(mvsrc instanceof MV);          // true
+print(mv2dsrc);
+// [
+//  [[1,-1],[2,-2],[3,-3]],
+//  [[2,0],[3,-1],[4,-2]]
+// ]
+print(mvarr);
+// [1,-1],[2,-2],[3,-3]
+print(mvsrc);
+// [1,-1]
+// create mask
+const mv2dmask = new MV2DMask(3, 2);
+mv2dmask.forEach((_,i,j,arr) => arr[i][j] = ((i+j) & 1));
+const mvmask = mv2dmask[0];
+print(mv2dmask instanceof MV2DMask); // true
+print(mvmask instanceof MVMask);     // true
+print(mv2dmask);
+// [
+//  [false,true,false],
+//  [true,false,true]
+// ]
+print(mvmask);
+// false,true,false
+// create work mv2darray
+const mv2darr = new MV2DArray(3, 2);
+mv2darr.forEach((mv,i,j) => mv.assign(MV(i,j)));
 // good luck keeping track of the value of the motion vectors!
-print(mv2darr);                       // [0,0],[1,1],[2,2],[3,3]
-print("add");                       // add
-print(mv2darr.add(mv2darr2));           // [3,3],[3,3],[3,3],[3,3]
-print(mv2darr.add(mv12));             // [4,5],[4,5],[4,5],[4,5]
-print(mv2darr.add(2, 1));             // [6,6],[6,6],[6,6],[6,6]
-print(mv2darr.add(mv2darr2, mv2dmask));   // [6,6],[8,8],[6,6],[6,6]
-print(mv2darr.add(mv12, mv2dmask));     // [6,6],[9,10],[6,6],[7,8]
-print(mv2darr.add(2, 1, mv2dmask));     // [6,6],[11,11],[6,6],[9,9]
-print(mv2darr.add_h(mv2darr2));         // [9,6],[13,11],[7,6],[9,9]
-print(mv2darr.add_h(mv12));           // [10,6],[14,11],[8,6],[10,9]
-print(mv2darr.add_h(2, 1));           // [12,6],[16,11],[10,6],[12,9]
-print(mv2darr.add_h(2));              // [14,6],[18,11],[12,6],[14,9]
-print(mv2darr.add_h(mv2darr2, mv2dmask)); // [14,6],[20,11],[12,6],[14,9]
-print(mv2darr.add_h(mv12, mv2dmask));   // [14,6],[21,11],[12,6],[15,9]
-print(mv2darr.add_h(2, 1, mv2dmask));   // [14,6],[23,11],[12,6],[17,9]
-print(mv2darr.add_h(2, mv2dmask));      // [14,6],[25,11],[12,6],[19,9]
-print(mv2darr.add_v(mv2darr2));         // [14,9],[25,13],[12,7],[19,9]
-print(mv2darr.add_v(mv12));           // [14,11],[25,15],[12,9],[19,11]
-print(mv2darr.add_v(2, 1));           // [14,12],[25,16],[12,10],[19,12]
-print(mv2darr.add_v(2));              // [14,14],[25,18],[12,12],[19,14]
-print(mv2darr.add_v(mv2darr2, mv2dmask)); // [14,14],[25,20],[12,12],[19,14]
-print(mv2darr.add_v(mv12, mv2dmask));   // [14,14],[25,22],[12,12],[19,16]
-print(mv2darr.add_v(2, 1, mv2dmask));   // [14,14],[25,23],[12,12],[19,17]
-print(mv2darr.add_v(2, mv2dmask));      // [14,14],[25,25],[12,12],[19,19]
-print("sub");                       // sub
-print(mv2darr.sub(mv2darr2));           // [11,11],[23,23],[11,11],[19,19]
-print(mv2darr.sub(mv12));             // [10,9],[22,21],[10,9],[18,17]
-print(mv2darr.sub(2, 1));             // [8,8],[20,20],[8,8],[16,16]
-print(mv2darr.sub(mv2darr2, mv2dmask));   // [8,8],[18,18],[8,8],[16,16]
-print(mv2darr.sub(mv12, mv2dmask));     // [8,8],[17,16],[8,8],[15,14]
-print(mv2darr.sub(2, 1, mv2dmask));     // [8,8],[15,15],[8,8],[13,13]
-print(mv2darr.sub_h(mv2darr2));         // [5,8],[13,15],[7,8],[13,13]
-print(mv2darr.sub_h(mv12));           // [4,8],[12,15],[6,8],[12,13]
-print(mv2darr.sub_h(2, 1));           // [2,8],[10,15],[4,8],[10,13]
-print(mv2darr.sub_h(2));              // [0,8],[8,15],[2,8],[8,13]
-print(mv2darr.sub_h(mv2darr2, mv2dmask)); // [0,8],[6,15],[2,8],[8,13]
-print(mv2darr.sub_h(mv12, mv2dmask));   // [0,8],[5,15],[2,8],[7,13]
-print(mv2darr.sub_h(2, 1, mv2dmask));   // [0,8],[3,15],[2,8],[5,13]
-print(mv2darr.sub_h(2, mv2dmask));      // [0,8],[1,15],[2,8],[3,13]
-print(mv2darr.sub_v(mv2darr2));         // [0,5],[1,13],[2,7],[3,13]
-print(mv2darr.sub_v(mv12));           // [0,3],[1,11],[2,5],[3,11]
-print(mv2darr.sub_v(2, 1));           // [0,2],[1,10],[2,4],[3,10]
-print(mv2darr.sub_v(2));              // [0,0],[1,8],[2,2],[3,8]
-print(mv2darr.sub_v(mv2darr2, mv2dmask)); // [0,0],[1,6],[2,2],[3,8]
-print(mv2darr.sub_v(mv12, mv2dmask));   // [0,0],[1,4],[2,2],[3,6]
-print(mv2darr.sub_v(2, 1, mv2dmask));   // [0,0],[1,3],[2,2],[3,5]
-print(mv2darr.sub_v(2, mv2dmask));      // [0,0],[1,1],[2,2],[3,3]
-print("mul");                       // mul
-print(mv2darr.mul(mv2darr2));           // [0,0],[2,2],[2,2],[0,0]
-print(mv2darr.mul(mv12));             // [0,0],[2,4],[2,4],[0,0]
-print(mv2darr.mul(2, 1));             // [0,0],[4,4],[4,4],[0,0]
-print(mv2darr.mul(mv2darr2, mv2dmask));   // [0,0],[8,8],[4,4],[0,0]
-print(mv2darr.mul(mv12, mv2dmask));     // [0,0],[8,16],[4,4],[0,0]
-print(mv2darr.mul(2, 1, mv2dmask));     // [0,0],[16,16],[4,4],[0,0]
-print(mv2darr.mul_h(mv2darr2));         // [0,0],[32,16],[4,4],[0,0]
-print(mv2darr.mul_h(mv12));           // [0,0],[32,16],[4,4],[0,0]
-print(mv2darr.mul_h(2, 1));           // [0,0],[64,16],[8,4],[0,0]
-print(mv2darr.mul_h(2));              // [0,0],[128,16],[16,4],[0,0]
-print(mv2darr.mul_h(mv2darr2, mv2dmask)); // [0,0],[256,16],[16,4],[0,0]
-print(mv2darr.mul_h(mv12, mv2dmask));   // [0,0],[256,16],[16,4],[0,0]
-print(mv2darr.mul_h(2, 1, mv2dmask));   // [0,0],[512,16],[16,4],[0,0]
-print(mv2darr.mul_h(2, mv2dmask));      // [0,0],[1024,16],[16,4],[0,0]
-print(mv2darr.mul_v(mv2darr2));         // [0,0],[1024,32],[16,4],[0,0]
-print(mv2darr.mul_v(mv12));           // [0,0],[1024,64],[16,8],[0,0]
-print(mv2darr.mul_v(2, 1));           // [0,0],[1024,64],[16,8],[0,0]
-print(mv2darr.mul_v(2));              // [0,0],[1024,128],[16,16],[0,0]
-print(mv2darr.mul_v(mv2darr2, mv2dmask)); // [0,0],[1024,256],[16,16],[0,0]
-print(mv2darr.mul_v(mv12, mv2dmask));   // [0,0],[1024,512],[16,16],[0,0]
-print(mv2darr.mul_v(2, 1, mv2dmask));   // [0,0],[1024,512],[16,16],[0,0]
-print(mv2darr.mul_v(2, mv2dmask));      // [0,0],[1024,1024],[16,16],[0,0]
-print("div");                       // div
-print(mv2darr.div(mv2darr2));           // [0,0],[512,512],[16,16],[0,0]
-print(mv2darr.div(mv12));             // [0,0],[512,256],[16,8],[0,0]
-print(mv2darr.div(2, 1));             // [0,0],[256,256],[8,8],[0,0]
-print(mv2darr.div(mv2darr2, mv2dmask));   // [0,0],[128,128],[8,8],[0,0]
-print(mv2darr.div(mv12, mv2dmask));     // [0,0],[128,64],[8,8],[0,0]
-print(mv2darr.div(2, 1, mv2dmask));     // [0,0],[64,64],[8,8],[0,0]
-print(mv2darr.div_h(mv2darr2));         // [0,0],[32,64],[8,8],[0,0]
-print(mv2darr.div_h(mv12));           // [0,0],[32,64],[8,8],[0,0]
-print(mv2darr.div_h(2, 1));           // [0,0],[16,64],[4,8],[0,0]
-print(mv2darr.div_h(2));              // [0,0],[8,64],[2,8],[0,0]
-print(mv2darr.div_h(mv2darr2, mv2dmask)); // [0,0],[4,64],[2,8],[0,0]
-print(mv2darr.div_h(mv12, mv2dmask));   // [0,0],[4,64],[2,8],[0,0]
-print(mv2darr.div_h(2, 1, mv2dmask));   // [0,0],[2,64],[2,8],[0,0]
-print(mv2darr.div_h(2, mv2dmask));      // [0,0],[1,64],[2,8],[0,0]
-print(mv2darr.div_v(mv2darr2));         // [0,0],[1,32],[2,8],[0,0]
-print(mv2darr.div_v(mv12));           // [0,0],[1,16],[2,4],[0,0]
-print(mv2darr.div_v(2, 1));           // [0,0],[1,16],[2,4],[0,0]
-print(mv2darr.div_v(2));              // [0,0],[1,8],[2,2],[0,0]
-print(mv2darr.div_v(mv2darr2, mv2dmask)); // [0,0],[1,4],[2,2],[0,0]
-print(mv2darr.div_v(mv12, mv2dmask));   // [0,0],[1,2],[2,2],[0,0]
-print(mv2darr.div_v(2, 1, mv2dmask));   // [0,0],[1,2],[2,2],[0,0]
-print(mv2darr.div_v(2, mv2dmask));      // [0,0],[1,1],[2,2],[0,0]
-print("assign");                    // assign
-print(mv2darr.assign(mv2darr2));        // [3,3],[2,2],[1,1],[0,0]
-print(mv2darr.assign(mv12));          // [1,2],[1,2],[1,2],[1,2]
-print(mv2darr.assign(2, 1));          // [2,1],[2,1],[2,1],[2,1]
-print(mv2darr.assign(mv2darr2, mv2dmask));// [2,1],[2,2],[2,1],[0,0]
-print(mv2darr.assign(mv12, mv2dmask));  // [2,1],[1,2],[2,1],[1,2]
-print(mv2darr.assign(3, 4, mv2dmask));  // [2,1],[3,4],[2,1],[3,4]
-print(mv2darr.assign_h(5));           // [5,1],[5,4],[5,1],[5,4]
-print(mv2darr.assign_h(6, mv2dmask));   // [5,1],[6,4],[5,1],[6,4]
-print(mv2darr.assign_h(7, 8, mv2dmask));// [5,1],[7,4],[5,1],[7,4]
-print(mv2darr.assign_v(5));           // [5,5],[7,5],[5,5],[7,5]
-print(mv2darr.assign_v(6, mv2dmask));   // [5,5],[7,6],[5,5],[7,6]
-print(mv2darr.assign_v(0, 9, mv2dmask));// [5,5],[7,9],[5,5],[7,9]
+print(mv2darr);
+// [
+//  [[0,0],[0,1],[0,2]],
+//  [[1,0],[1,1],[1,2]]
+// ]
+print("add");
+// add
+print(mv2darr.add(mv2dsrc));
+// [
+//  [[1,-1],[2,-1],[3,-1]],
+//  [[3,0],[4,0],[5,0]]
+// ]
+print(mv2darr.add(mvarr));
+// [
+//  [[2,-2],[4,-3],[6,-4]],
+//  [[4,-1],[6,-2],[8,-3]]
+// ]
+print(mv2darr.add(mvsrc));
+// [
+//  [[3,-3],[5,-4],[7,-5]],
+//  [[5,-2],[7,-3],[9,-4]]
+// ]
+print(mv2darr.add(mv2dsrc, mv2dmask));
+// [
+//  [[3,-3],[7,-6],[7,-5]],
+//  [[7,-2],[7,-3],[13,-6]]
+// ]
+print(mv2darr.add(mvarr, mv2dmask));
+// [
+//  [[3,-3],[9,-8],[7,-5]],
+//  [[8,-3],[7,-3],[16,-9]]
+// ]
+print(mv2darr.add(mvsrc, mv2dmask));
+// [
+//  [[3,-3],[10,-9],[7,-5]],
+//  [[9,-4],[7,-3],[17,-10]]
+// ]
+print(mv2darr.add(mv2dsrc, mvmask));
+// [
+//  [[3,-3],[12,-11],[7,-5]],
+//  [[9,-4],[10,-4],[17,-10]]
+// ]
+print(mv2darr.add(mvarr, mvmask));
+// [
+//  [[3,-3],[14,-13],[7,-5]],
+//  [[9,-4],[12,-6],[17,-10]]
+// ]
+print(mv2darr.add(mvsrc, mvmask));
+// [
+//  [[3,-3],[15,-14],[7,-5]],
+//  [[9,-4],[13,-7],[17,-10]]
+// ]
+print(mv2darr.add_h(mv2dsrc));
+// [
+//  [[4,-3],[17,-14],[10,-5]],
+//  [[11,-4],[16,-7],[21,-10]]
+// ]
+print(mv2darr.add_h(mvarr));
+// [
+//  [[5,-3],[19,-14],[13,-5]],
+//  [[12,-4],[18,-7],[24,-10]]
+// ]
+print(mv2darr.add_h(mvsrc));
+// [
+//  [[6,-3],[20,-14],[14,-5]],
+//  [[13,-4],[19,-7],[25,-10]]
+// ]
+print(mv2darr.add_h(2));
+// [
+//  [[8,-3],[22,-14],[16,-5]],
+//  [[15,-4],[21,-7],[27,-10]]
+// ]
+print(mv2darr.add_h(mv2dsrc, mv2dmask));
+// [
+//  [[8,-3],[24,-14],[16,-5]],
+//  [[17,-4],[21,-7],[31,-10]]
+// ]
+print(mv2darr.add_h(mvarr, mv2dmask));
+// [
+//  [[8,-3],[26,-14],[16,-5]],
+//  [[18,-4],[21,-7],[34,-10]]
+// ]
+print(mv2darr.add_h(mvsrc, mv2dmask));
+// [
+//  [[8,-3],[27,-14],[16,-5]],
+//  [[19,-4],[21,-7],[35,-10]]
+// ]
+print(mv2darr.add_h(2, mv2dmask));
+// [
+//  [[8,-3],[29,-14],[16,-5]],
+//  [[21,-4],[21,-7],[37,-10]]
+// ]
+print(mv2darr.add_h(mv2dsrc, mvmask));
+// [
+//  [[8,-3],[31,-14],[16,-5]],
+//  [[21,-4],[24,-7],[37,-10]]
+// ]
+print(mv2darr.add_h(mvarr, mvmask));
+// [
+//  [[8,-3],[33,-14],[16,-5]],
+//  [[21,-4],[26,-7],[37,-10]]
+// ]
+print(mv2darr.add_h(mvsrc, mvmask));
+// [
+//  [[8,-3],[34,-14],[16,-5]],
+//  [[21,-4],[27,-7],[37,-10]]
+// ]
+print(mv2darr.add_h(2, mvmask));
+// [
+//  [[8,-3],[36,-14],[16,-5]],
+//  [[21,-4],[29,-7],[37,-10]]
+// ]
+print(mv2darr.add_v(mv2dsrc));
+// [
+//  [[8,-4],[36,-16],[16,-8]],
+//  [[21,-4],[29,-8],[37,-12]]
+// ]
+print(mv2darr.add_v(mvarr));
+// [
+//  [[8,-5],[36,-18],[16,-11]],
+//  [[21,-5],[29,-10],[37,-15]]
+// ]
+print(mv2darr.add_v(mvsrc));
+// [
+//  [[8,-6],[36,-19],[16,-12]],
+//  [[21,-6],[29,-11],[37,-16]]
+// ]
+print(mv2darr.add_v(2));
+// [
+//  [[8,-4],[36,-17],[16,-10]],
+//  [[21,-4],[29,-9],[37,-14]]
+// ]
+print(mv2darr.add_v(mv2dsrc, mv2dmask));
+// [
+//  [[8,-4],[36,-19],[16,-10]],
+//  [[21,-4],[29,-9],[37,-16]]
+// ]
+print(mv2darr.add_v(mvarr, mv2dmask));
+// [
+//  [[8,-4],[36,-21],[16,-10]],
+//  [[21,-5],[29,-9],[37,-19]]
+// ]
+print(mv2darr.add_v(mvsrc, mv2dmask));
+// [
+//  [[8,-4],[36,-22],[16,-10]],
+//  [[21,-6],[29,-9],[37,-20]]
+// ]
+print(mv2darr.add_v(2, mv2dmask));
+// [
+//  [[8,-4],[36,-20],[16,-10]],
+//  [[21,-4],[29,-9],[37,-18]]
+// ]
+print(mv2darr.add_v(mv2dsrc, mvmask));
+// [
+//  [[8,-4],[36,-22],[16,-10]],
+//  [[21,-4],[29,-10],[37,-18]]
+// ]
+print(mv2darr.add_v(mvarr, mvmask));
+// [
+//  [[8,-4],[36,-24],[16,-10]],
+//  [[21,-4],[29,-12],[37,-18]]
+// ]
+print(mv2darr.add_v(mvsrc, mvmask));
+// [
+//  [[8,-4],[36,-25],[16,-10]],
+//  [[21,-4],[29,-13],[37,-18]]
+// ]
+print(mv2darr.add_v(2, mvmask));
+// [
+//  [[8,-4],[36,-23],[16,-10]],
+//  [[21,-4],[29,-11],[37,-18]]
+// ]
+// you get the idea, I won't repeat for "sub", "mul", and "div".
+print("assign");
+// assign
+print(mv2darr.assign(mv2dsrc));
+// [
+//  [[1,-1],[2,-2],[3,-3]],
+//  [[2,0],[3,-1],[4,-2]]
+// ]
+print(mv2darr.assign(mvarr));
+// [
+//  [[1,-1],[2,-2],[3,-3]],
+//  [[1,-1],[2,-2],[3,-3]]
+// ]
+print(mv2darr.assign(mvsrc));
+// [
+//  [[1,-1],[1,-1],[1,-1]],
+//  [[1,-1],[1,-1],[1,-1]]
+// ]
 // the null argument is only allowed when assigning
-print(mv2darr.assign(null, mv2dmask));  // [5,5],null,[5,5],null
-print(mv2darr.assign(null));          // null,null,null,null
+print(mv2darr.assign(null, mv2dmask));
+// [
+//  [[8,-4],null,[16,-10]],
+//  [null,[29,-11],null]
+// ]
+print(mv2darr.assign(null, mvmask));
+// [
+//  [[8,-4],null,[16,-10]],
+//  [null,null,null]
+// ]
+print(mv2darr.assign(null));
+// [
+//  [null,null,null],
+//  [null,null,null]
+// ]
 ```
+
+Note: check `MVArray.prototype.mathOp()` for more examples.
 
 <hr />
 ## MV2DArray.prototype.compare()
 
 The `compare()` returns an `MV2DMask` with the result from running the
-provided `compareFn()` function on all elements of the array.
+provided `compareFn()` function on all elements of the 2-dimensional
+array.
 
 ### Syntax
 ```js
-compare(compareFn(mv, index, array))
-compare(compareFn(mv, index, array), thisArg)
+compare(compareFn(mv, i, j, array))
+compare(compareFn(mv, i, j, array), thisArg)
 ```
 
 ### Parameters
-`compareFn` is a function (`inline`, `arrow`, or normal) that is
-called for each motion vector of the array.
+`compareFn` is a function (`inline`, `arrow`, or normal) that is called
+for each motion vector of the 2-dimensional array.
 The function's parameters are `mv` (an `MVRef` to the current motion
-vector being tested), `index` (the index it corresponds to in the
-array), and `array` (the array itself).
+vector being tested), `i` (the vertical index it corresponds to in the
+2-dimensional array), `j` (the horizontal index it correspons to in the
+2-dimensional array), and `array` (the 2-dimensional array itself).
 The function should return either `true` or `false`.
 
 `thisArg` (optional) is a value to use as `this` when executing
 `compareFn`.
 
 ### Return value
-`true` or `false`.
+An `MV2DMask` filled with the results from each comparison.
 
 ### Examples
 ```js
-const mv2darr = new MV2DArray(6);
-for ( let i = 0; i < 6; i++ ) mv2darr[i] = MV(i,i);
-print(mv2darr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
-function is_even(mv, i, arr) {
-    return !(mv[0] & 1) && !(mv[1] & 1);
-}
-const mv2dmask = mv2darr.compare(is_even);
-print(mv2dmask instanceof MV2DMask);    // true
-print(mv2dmask);                      // true,false,true,false,true,false
+const mv2darr = new MV2DArray(3, 2);
+mv2darr.forEach((mv,i,j) => mv.assign(MV(i+2,j+2)));
+print(mv2darr);
+// [
+//  [[2,2],[2,3],[2,4]],
+//  [[3,2],[3,3],[3,4]]
+// ]
+const mv2dmask = mv2darr.compare((mv) => mv[0] == mv[1]);
+print(mv2dmask);
+// [
+//  [true,false,false],
+//  [false,true,false]
+// ]
 ```
 
 <hr />
-## MV.prototype.compareOp()
+## MV2DArray.prototype.compareOp()
 
-There is no real `compareOp()` method in the `MV` prototype.
+There is no real `compareOp()` method in the `MV2DArray` prototype.
 Instead, there are a bunch of comparison methods, listed below:
 ```js
 compare_eq()
@@ -972,11 +1411,12 @@ methods is that `compare()` takes a function, and `compareOp()` will
 run some predefined comparisons, which should be much faster than
 calling a function for each iteration.
 
-The arguments passed to the methods above should be either an `MV2DArray`
-(of the same length as the array), `null` (only for the `compare_eq()`
-and `compare_neq()` methods), specified as an `MV` constant, an `MV`
-object, or an `MVRef` object, a motion vector specified in terms of
-its horizontal and vertical components, or a single integer, which will
+The arguments passed to the methods above should be either an
+`MV2DArray` (of the same width/height as the 2-dimensional array), an
+`MVArray` (of the same length as the 2-dimensional array's width),
+`null` (only for the `assign` operation), an `MV` constant, an `MV`
+object, or an `MVRef` object, a motion vector specified in terms of its
+horizontal and vertical components, or a single integer, which will
 be used as the squared magnitude of a motion vector.
 
 The behaviour of each method is defined as follows:
@@ -1011,6 +1451,7 @@ compare_lte_v()
 ```js
 compareOp(null)
 compareOp(mv2darray)
+compareOp(mvarray)
 compareOp(mv)
 compareOp(magnitude_sq)
 compareOp(horizontal, vertical)
@@ -1020,6 +1461,8 @@ compareOp_v(vertical)
 
 ### Parameters
 `mv2darray` (optional) is an `MV2DArray` object.
+
+`mvarray` (optional) is an `MVArray` object.
 
 `mv` (optional) must be either an `MV` constant, an `MV` object, or an `MVRef` object.
 
@@ -1034,79 +1477,126 @@ An `MV2DMask` filled with the results from each comparison.
 
 ### Examples
 ```js
-let mv2darray = new MV2DArray(7);
-for ( let i = 0; i < 6; i++ ) mv2darray[i] = MV(i,i%3);
-mv2darray[6] = null;
-let mv2darr2 = new MV2DArray(7);
-for ( let i = 0; i < 7; i++ ) mv2darr2[i] = MV(i,i%2);
-mv11 = new MV(1,1);
-let mg_sq = 8;
-print(mv11);                        // [1,1]
-print(mv2darray);                     // [0,0],[1,1],[2,2],[3,0],[4,1],[5,2],null
-print(mv2darr2);                      // [0,0],[1,1],[2,0],[3,1],[4,0],[5,1],[6,0]
+// create sources of motion vectors
+const mv2dsrc = new MV2DArray(3, 2);
+mv2dsrc.forEach((_,i,j,arr) => arr[i][j] = MV(i+j+1,i-j-1));
+const mvarr = mv2dsrc[0].dup();
+const mvsrc = new MV(mvarr[0]);
+print(mv2dsrc instanceof MV2DArray); // true
+print(mvarr instanceof MVArray);     // true
+print(mvsrc instanceof MV);          // true
+print(mv2dsrc);
+// [
+//  [[1,-1],[2,-2],[3,-3]],
+//  [[2,0],[3,-1],[4,-2]]
+// ]
+print(mvarr);
+// [1,-1],[2,-2],[3,-3]
+print(mvsrc);
+// [1,-1]
+const mg_sq = 18;
+// create work mv2darray
+const mv2darr = mv2dsrc.dup();
+mv2darr[0][2][1] = 3;
+mv2darr[1][0] = MV(0,0);
+mv2darr[1][1] = MV(2,-2);
+mv2darr[1][2] = null;
+// good luck keeping track of the value of the motion vectors!
+print(mv2darr);
+// [
+//  [[0,0],[2,-2],[3,3]],
+//  [[2,0],[4,2],null]
+// ]
 print("compare_eq");                // compare_eq
-print(mv2darray.compare_eq(mv2darr2));  // true,true,false,false,false,false,false
-print(mv2darray.compare_eq(mv11));    // false,true,false,false,false,false,false
-print(mv2darray.compare_eq(0,0));     // true,false,false,false,false,false,false
-print(mv2darray.compare_eq(mg_sq));   // false,false,true,false,false,false,false
-print(mv2darray.compare_eq(null));    // false,false,false,false,false,false,true
-print(mv2darray.compare_eq_h(1));     // false,true,false,false,false,false,false
-print(mv2darray.compare_eq_h(2));     // false,false,true,false,false,false,false
-print(mv2darray.compare_eq_v(1));     // false,true,false,false,true,false,false
-print(mv2darray.compare_eq_v(2));     // false,false,true,false,false,true,false
-print("compare_neq");               // compare_neq
-print(mv2darray.compare_neq(mv2darr2)); // false,false,true,true,true,true,true
-print(mv2darray.compare_neq(mv11));   // true,false,true,true,true,true,true
-print(mv2darray.compare_neq(0,0));    // false,true,true,true,true,true,true
-print(mv2darray.compare_neq(mg_sq));  // true,true,false,true,true,true,true
-print(mv2darray.compare_neq(null));   // true,true,true,true,true,true,false
-print(mv2darray.compare_neq_h(1));    // true,false,true,true,true,true,true
-print(mv2darray.compare_neq_h(2));    // true,true,false,true,true,true,true
-print(mv2darray.compare_neq_v(1));    // true,false,true,true,false,true,true
-print(mv2darray.compare_neq_v(2));    // true,true,false,true,true,false,true
+print(mv2darr.compare_eq(mv2dsrc));
+// [
+//  [true,true,false],
+//  [false,false,false]
+// ]
+print(mv2darr.compare_eq(mvarr));
+// [
+//  [true,true,false],
+//  [false,true,false]
+// ]
+print(mv2darr.compare_eq(mvsrc));
+// [
+//  [true,false,false],
+//  [false,false,false]
+// ]
+print(mv2darr.compare_eq(null));
+// [
+//  [false,false,false],
+//  [false,false,true]
+// ]
+print(mv2darr.compare_eq(mg_sq));
+// [
+//  [false,false,true],
+//  [false,false,false]
+// ]
+// compare_neq() is just the opposite of compare_eq()
 print("compare_gt");                // compare_gt
-print(mv2darray.compare_gt(mv2darr2));  // false,false,true,false,true,true,false
-print(mv2darray.compare_gt(mv11));    // false,false,true,true,true,true,false
-print(mv2darray.compare_gt(0,0));     // false,true,true,true,true,true,false
-print(mv2darray.compare_gt(mg_sq));   // false,false,false,true,true,true,false
-print(mv2darray.compare_gt_h(1));     // false,false,true,true,true,true,false
-print(mv2darray.compare_gt_h(2));     // false,false,false,true,true,true,false
-print(mv2darray.compare_gt_v(1));     // false,false,true,false,false,true,false
-print(mv2darray.compare_gt_v(2));     // false,false,false,false,false,false,false
-print("compare_gte");               // compare_gte
-print(mv2darray.compare_gte(mv2darr2)); // true,true,true,false,true,true,false
-print(mv2darray.compare_gte(mv11));   // false,true,true,true,true,true,false
-print(mv2darray.compare_gte(0,0));    // true,true,true,true,true,true,false
-print(mv2darray.compare_gte(mg_sq));  // false,false,true,true,true,true,false
-print(mv2darray.compare_gte_h(1));    // false,true,true,true,true,true,false
-print(mv2darray.compare_gte_h(2));    // false,false,true,true,true,true,false
-print(mv2darray.compare_gte_v(1));    // false,true,true,false,true,true,false
-print(mv2darray.compare_gte_v(2));    // false,false,true,false,false,true,false
-print("compare_lt");                // compare_lt
-print(mv2darray.compare_lt(mv2darr2));  // false,false,false,true,false,false,false
-print(mv2darray.compare_lt(mv11));    // true,false,false,false,false,false,false
-print(mv2darray.compare_lt(0,0));     // false,false,false,false,false,false,false
-print(mv2darray.compare_lt(mg_sq));   // true,true,false,false,false,false,false
-print(mv2darray.compare_lt_h(1));     // true,false,false,false,false,false,false
-print(mv2darray.compare_lt_h(2));     // true,true,false,false,false,false,false
-print(mv2darray.compare_lt_v(1));     // true,false,false,true,false,false,false
-print(mv2darray.compare_lt_v(2));     // true,true,false,true,true,false,false
-print("compare_lte");               // compare_lte
-print(mv2darray.compare_lte(mv2darr2)); // true,true,false,true,false,false,false
-print(mv2darray.compare_lte(mv11));   // true,true,false,false,false,false,false
-print(mv2darray.compare_lte(0,0));    // true,false,false,false,false,false,false
-print(mv2darray.compare_lte(mg_sq));  // true,true,true,false,false,false,false
-print(mv2darray.compare_lte_h(1));    // true,true,false,false,false,false,false
-print(mv2darray.compare_lte_h(2));    // true,true,true,false,false,false,false
-print(mv2darray.compare_lte_v(1));    // true,true,false,true,true,false,false
-print(mv2darray.compare_lte_v(2));    // true,true,true,true,true,true,false
+print(mv2darr.compare_gt(mv2dsrc));
+// [
+//  [false,false,false],
+//  [false,false,false]
+// ]
+print(mv2darr.compare_gt(mvarr));
+// [
+//  [false,false,false],
+//  [false,false,false]
+// ]
+print(mv2darr.compare_gt(mvsrc));
+// [
+//  [false,true,true],
+//  [false,true,false]
+// ]
+print(mv2darr.compare_gt(null));
+// [
+//  [false,false,false],
+//  [false,false,false]
+// ]
+print(mv2darr.compare_gt(mg_sq));
+// [
+//  [false,false,false],
+//  [false,false,false]
+// ]
+print("compare_gte");               // compare_gt
+print(mv2darr.compare_gte(mv2dsrc));
+// [
+//  [true,true,true],
+//  [false,false,false]
+// ]
+print(mv2darr.compare_gte(mvarr));
+// [
+//  [true,true,true],
+//  [false,true,false]
+// ]
+print(mv2darr.compare_gte(mvsrc));
+// [
+//  [true,true,true],
+//  [false,true,false]
+// ]
+print(mv2darr.compare_gte(null));
+// [
+//  [false,false,false],
+//  [false,false,false]
+// ]
+print(mv2darr.compare_gte(mg_sq));
+// [
+//  [false,false,true],
+//  [false,false,false]
+// ]
+// compare_lt() is just the opposite of compare_gte()
+// compare_lte() is just the opposite of compare_gt()
 ```
+
+Note: check `MVArray.prototype.compareOp()` for more examples.
 
 <hr />
 ## MV2DMask.prototype.fill()
 
-The `fill()` method fills all the elements of a mask array from an
-`start` index to an `end` index with the boolean `value`.
+The `fill()` method fills all the elements of a 2-dimensional mask
+array from an `start` index to an `end` index with the boolean `value`.
 
 ### Syntax
 ```js
@@ -1116,36 +1606,97 @@ fill(value, start, end)
 ```
 
 ### Parameters
-`value` boolean to fill the mask array with.
+`value` boolean to fill the 2-dimensional mask array with.
 
-`start` (optional) is the index where the filling starts.
-If this value is omitted, `start` is `0`.
+`start` (optional) is the `[horizontal, vertical]` index where the
+filling starts.
+If this value is omitted, `begin` is `[0,0]`.
 
-`end` (optional) is the index where the filling ends.
-If this value is omitted, `end` is `length`.
+`end` (optional) is the end `[horizontal, vertical]` index where the
+filling starts.
+If this value is omitted, `end` is `[width,height]`.
 
 **Note**: the `start` and `end` parameters can contain negative values.
 In that case, the values wrap around from the last index.
 
 ### Return value
-The modified mask array.
+The modified 2-dimensional mask array.
 
 ### Examples
 ```js
-const mv2dmask = new MV2DMask(8);
-print(mv2dmask);                      // true,true,true,true,true,true,true,true
-print(mv2dmask.fill(false));          // false,false,false,false,false,false,false,false
-print(mv2dmask.fill(true, 4));        // false,false,false,false,true,true,true,true
-print(mv2dmask.fill(true, 2, 3));     // false,false,true,false,true,true,true,true
-print(mv2dmask.fill(false, -4, -2));  // false,false,true,false,false,false,true,true
-print(mv2dmask.fill(false, -4, 5));   // false,false,true,false,false,false,true,true
+const mv2dmask = new MV2DMask(3, 2);
+print(mv2dmask);
+// [
+//  [true,true,true],
+//  [true,true,true]
+// ]
+print(mv2dmask.fill(false));
+// [
+//  [false,false,false],
+//  [false,false,false]
+// ]
+print(mv2dmask.fill(true, [2,0]));
+// [
+//  [false,false,true],
+//  [false,false,true]
+// ]
+print(mv2dmask.fill(true, [0,1], [3,2]));
+// [
+//  [false,false,true],
+//  [true,true,true]
+// ]
+```
+
+<hr />
+## MV2DMask.prototype.forEach()
+
+The `forEach()` method calls the `callbackFn` function for each element
+of the 2-dimensional mask array. It has the same functionality as
+calling the code below, but it's slightly faster.
+
+```js
+for ( let i = 0; i < mvmask.height; i++ )
+    for ( let j = 0; j < mvmask.height; j++ )
+        callbackFn(mvmask[i][j], i, j, mvmask);
+```
+
+### Syntax
+```js
+forEach(callbackFn(element, i, j, array))
+forEach(callbackFn(element, i, j, array), thisArg)
+```
+
+### Parameters
+`callbackFn` is a function (`inline`, `arrow`, or normal) that is
+called for each element of the 2-dimensional mask array.
+The function's parameters are `element` (the current element being
+tested), `i` (the vertical index it corresponds to in the
+2-dimensional mask array), `j` (the horizontal index it correspons to
+in the 2-dimensional mask array), and `array` (the 2-dimensional mask
+array itself).
+
+`thisArg` (optional) is a value to use as `this` when executing
+`callbackFn`.
+
+### Return value
+`undefined`.
+
+### Examples
+```js
+const mv2dmask = new MV2DMask(3, 2);
+mv2dmask.forEach((_,i,j,arr) => arr[i][j] = ((i+j) & 1));
+print(mv2dmask);
+// [
+//  [false,true,false],
+//  [true,false,true]
+// ]
 ```
 
 <hr />
 ## MV2DMask.prototype.not()
 
-The `not()` method inverts all the elements of a mask array from an
-`start` index to an `end` index.
+The `not()` method inverts all the elements of a 2-dimensional mask
+array from an `start` index to an `end` index.
 
 ### Syntax
 ```js
@@ -1155,27 +1706,43 @@ not(start, end)
 ```
 
 ### Parameters
-`start` (optional) is the index where the filling starts.
-If this value is omitted, `start` is `0`.
+`start` (optional) is the `[horizontal, vertical]` index where the
+filling starts.
+If this value is omitted, `begin` is `[0,0]`.
 
-`end` (optional) is the index where the filling ends.
-If this value is omitted, `end` is `length`.
+`end` (optional) is the end `[horizontal, vertical]` index where the
+filling starts.
+If this value is omitted, `end` is `[width,height]`.
 
 **Note**: the `start` and `end` parameters can contain negative values.
 In that case, the values wrap around from the last index.
 
 ### Return value
-The modified mask array.
+The modified 2-dimensional mask array.
 
 ### Examples
 ```js
-const mv2dmask = new MV2DMask(8);
-print(mv2dmask);                      // true,true,true,true,true,true,true,true
-print(mv2dmask.not());                // false,false,false,false,false,false,false,false
-print(mv2dmask.not(4));               // false,false,false,false,true,true,true,true
-print(mv2dmask.not(2, 3));            // false,false,true,false,true,true,true,true
-print(mv2dmask.not(-4, -2));          // false,false,true,false,false,false,true,true
-print(mv2dmask.not(-4, 5));           // false,false,true,false,true,false,true,true
+const mv2dmask = new MV2DMask(3, 2);
+print(mv2dmask);
+// [
+//  [true,true,true],
+//  [true,true,true]
+// ]
+print(mv2dmask.not());
+// [
+//  [false,false,false],
+//  [false,false,false]
+// ]
+print(mv2dmask.not([2,0]));
+// [
+//  [false,false,true],
+//  [false,false,true]
+// ]
+print(mv2dmask.not([0,1], [3,2]));
+// [
+//  [false,false,true],
+//  [true,true,false]
+// ]
 ```
 
 <hr />
@@ -1189,19 +1756,31 @@ and(mv2dmask)
 ```
 
 ### Parameters
-`mv2dmask` is the source mask array for the binary operation.
+`mv2dmask` is the source 2-dimensional mask array for the binary operation.
 
 ### Return value
-The modified mask array.
+The modified 2-dimensional mask array.
 
 ### Examples
 ```js
-const mv2dmaskx = new MV2DMask(8);
-for ( let i = 0; i < 8; i++ ) mv2dmaskx[i] = (i & 1) ? true : false;
-const mv2dmask = new MV2DMask(8);
-print(mv2dmask);                      // true,true,true,true,true,true,true,true
-print(mv2dmaskx);                     // false,true,false,true,false,true,false,true
-print(mv2dmask.and(mv2dmaskx));         // false,true,false,true,false,true,false,true
+const mv2dmaskx = new MV2DMask(3, 2);
+mv2dmaskx.forEach((_,i,j,arr) => arr[i][j] = ((i+j) & 1));
+const mv2dmask = new MV2DMask(3, 2);
+print(mv2dmask);
+// [
+//  [true,true,true],
+//  [true,true,true]
+// ]
+print(mv2dmaskx);
+// [
+//  [false,true,false],
+//  [true,false,true]
+// ]
+print(mv2dmask.and(mv2dmaskx));
+// [
+//  [false,true,false],
+//  [true,false,true]
+// ]
 ```
 
 <hr />
@@ -1215,19 +1794,31 @@ or(mv2dmask)
 ```
 
 ### Parameters
-`mv2dmask` is the source mask array for the binary operation.
+`mv2dmask` is the 2-dimensional source mask array for the binary operation.
 
 ### Return value
-The modified mask array.
+The modified 2-dimensional mask array.
 
 ### Examples
 ```js
-const mv2dmaskx = new MV2DMask(8);
-for ( let i = 0; i < 8; i++ ) mv2dmaskx[i] = (i & 1) ? true : false;
-const mv2dmask = new MV2DMask(8);
-print(mv2dmask.fill(false));          // false,false,false,false,false,false,false,false
-print(mv2dmaskx);                     // false,true,false,true,false,true,false,true
-print(mv2dmask.or(mv2dmaskx));          // false,true,false,true,false,true,false,true
+const mv2dmaskx = new MV2DMask(3, 2);
+mv2dmaskx.forEach((_,i,j,arr) => arr[i][j] = ((i+j) & 1));
+const mv2dmask = new MV2DMask(3, 2);
+print(mv2dmask.fill(false));
+// [
+//  [false,false,false],
+//  [false,false,false]
+// ]
+print(mv2dmaskx);
+// [
+//  [false,true,false],
+//  [true,false,true]
+// ]
+print(mv2dmask.or(mv2dmaskx));
+// [
+//  [false,true,false],
+//  [true,false,true]
+// ]
 ```
 
 <hr />
@@ -1241,67 +1832,39 @@ xor(mv2dmask)
 ```
 
 ### Parameters
-`mv2dmask` is the source mask array for the binary operation.
+`mv2dmask` is the 2-dimensional source mask array for the binary operation.
 
 ### Return value
-The modified mask array.
+The modified 2-dimensional mask array.
 
 ### Examples
 ```js
-const mv2dmaskx = new MV2DMask(8);
-for ( let i = 0; i < 8; i++ ) mv2dmaskx[i] = (i & 1) ? true : false;
-const mv2dmask = new MV2DMask(8);
-print(mv2dmask);                      // true,true,true,true,true,true,true,true
-print(mv2dmaskx);                     // false,true,false,true,false,true,false,true
-print(mv2dmask.xor(mv2dmaskx));         // true,false,true,false,true,false,true,false
-print(mv2dmask.xor(mv2dmaskx));         // true,true,true,true,true,true,true,true
-print(mv2dmask.xor(mv2dmask));          // false,false,false,false,false,false,false,false
+const mv2dmaskx = new MV2DMask(3, 2);
+mv2dmaskx.forEach((_,i,j,arr) => arr[i][j] = ((i+j) & 1));
+const mv2dmask = new MV2DMask(3, 2);
+print(mv2dmask);
+// [
+//  [true,true,true],
+//  [true,true,true]
+// ]
+print(mv2dmaskx);
+// [
+//  [false,true,false],
+//  [true,false,true]
+// ]
+print(mv2dmask.xor(mv2dmaskx));
+// [
+//  [true,false,true],
+//  [false,true,false]
+// ]
+print(mv2dmask.xor(mv2dmaskx));
+// [
+//  [true,true,true],
+//  [true,true,true]
+// ]
+print(mv2dmask.xor(mv2dmask));
+// [
+//  [false,false,false],
+//  [false,false,false]
+// ]
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-THIS IS FOR MV2DARRAY
-
-<hr />
-## MV2DMask.prototype.fill()
-
-The `fill()` method fills all the elements of an array from a
-`[start_h, start_v]` index to an `[end_h, end_v]` index with the
-boolean `value`.
-
-### Syntax
-```js
-fill(value)
-fill(value, [start_h, start_v])
-fill(value, [start_h, start_v], [end_h, end_v])
-```
-
-### Parameters
-`value` to fill the array with.
-
-`[start_h, start_v]` (optional) are the `horizontal` and `vertical`
-indexes where the filling starts.
-If this value is omitted, `[start_h, start_v]` is `[0,0]`.
-
-`[end_h, end_v]` (optional) are the `horizontal` and `vertical`
-indexes where the filling ends.
-If this value is omitted, `[end_h, end_v]` is `[length,length]`.
-
-**Note**: the `start_h`, `start_v`, `end_h`, and `end_v` parameters can
-contain negative values.
-In that case, the values wrap around from the last index.

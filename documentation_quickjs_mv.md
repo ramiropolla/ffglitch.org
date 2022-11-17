@@ -97,7 +97,7 @@ MV(horizontal, vertical)
 `vertical` (optional) is the vertical component of the motion vector.
 
 ### Return value
-The new constant.
+The new `MV` constant.
 
 ### Examples
 ```js
@@ -141,7 +141,7 @@ new MV(horizontal, vertical)
 `vertical` (optional) is the vertical component of the motion vector.
 
 ### Return value
-The new object.
+The new `MV` object.
 
 ### Examples
 ```js
@@ -176,7 +176,7 @@ new MVRef(mv)
 `mv` must be either an `MV` object or an `MVRef` object.
 
 ### Return value
-The new object.
+The new `MVRef` object.
 
 ### Examples
 ```js

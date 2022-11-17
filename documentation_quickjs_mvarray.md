@@ -51,7 +51,7 @@ new MVArray(length)
 of the array to be created.
 
 ### Return value
-The new object.
+The new `MVArray` object.
 
 ### Examples
 ```js
@@ -75,7 +75,7 @@ new MVPtr(source)
 `source` must be either an `MVArray` or an `MVPtr` object.
 
 ### Return value
-The new object.
+The new `MVPtr` object.
 
 ### Examples
 ```js
@@ -106,7 +106,7 @@ new MVMask(length)
 of the mask array to be created.
 
 ### Return value
-The new object.
+The new `MVMask` object.
 
 ### Examples
 ```js
@@ -159,8 +159,8 @@ The string representation.
 ### Examples
 ```js
 const mvarr = new MVArray(4);
-print(mvarr.join(""))               // [0,0][0,0][0,0][0,0]
-print(mvarr.join("^ ^"))            // [0,0]^ ^[0,0]^ ^[0,0]^ ^[0,0]
+print(mvarr.join(""))       // [0,0][0,0][0,0][0,0]
+print(mvarr.join("^ ^"))    // [0,0]^ ^[0,0]^ ^[0,0]^ ^[0,0] (birds)
 ```
 
 <hr />
@@ -188,7 +188,7 @@ If this value is omitted, `end` is `length`.
 In that case, the values wrap around from the last index.
 
 ### Return value
-The modified array.
+The modified motion vector array.
 
 ### Examples
 ```js
@@ -267,7 +267,7 @@ If this value is omitted, `targetOffset` is `0`.
 In that case, the value wraps around from the last index.
 
 ### Return value
-The modified array.
+The modified motion vector array.
 
 ### Examples
 ```js
@@ -289,17 +289,17 @@ print(mvarr.set(mvptr, -1));        // [0,0],[-1,-1],[0,0],[-1,-1],[4,4],[0,0]
 ## MVArray.prototype.fill()
 
 The `fill()` method fills all the motion vectors of an array from an
-`start` index to an `end` index with a static `value`.
+`start` index to an `end` index with a motion vector `mv`.
 
 ### Syntax
 ```js
-fill(value)
-fill(value, start)
-fill(value, start, end)
+fill(mv)
+fill(mv, start)
+fill(mv, start, end)
 ```
 
 ### Parameters
-`value` to fill the array with.
+`mv` to fill the array with.
 
 `start` (optional) is the index where the filling starts.
 If this value is omitted, `start` is `0`.
@@ -311,7 +311,7 @@ If this value is omitted, `end` is `length`.
 In that case, the values wrap around from the last index.
 
 ### Return value
-The modified array.
+The modified motion vector array.
 
 ### Examples
 ```js
@@ -338,7 +338,7 @@ reverse()
 ```
 
 ### Return value
-The modified array.
+The modified motion vector array.
 
 ### Examples
 ```js
@@ -377,7 +377,7 @@ The function should return a negative number for (`a` > `b`), a
 positive number for (`a` < `b`), and zero if (`b` == `a`).
 
 ### Return value
-The modified array.
+The modified motion vector array.
 
 ### Examples
 ```js
@@ -423,7 +423,7 @@ If this value is omitted, `end` is `length`.
 In that case, the values wrap around from the last index.
 
 ### Return value
-The new object.
+The new `MVArray` object.
 
 ### Examples
 ```js
@@ -462,7 +462,7 @@ dup()
 ```
 
 ### Return value
-The new object.
+The new `MVArray` object.
 
 ### Examples
 ```js
@@ -570,8 +570,8 @@ Note that you **can** modify `mv` directly, since it is passed as an
 `MVRef`.
 
 ```js
-for ( let i = 0; i < arr.length; i++ )
-    callbackFn(arr[i], i, arr);
+for ( let i = 0; i < mvarr.length; i++ )
+    callbackFn(mvarr[i], i, mvarr);
 ```
 
 ### Syntax
@@ -601,7 +601,7 @@ print(mvarr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
 mvarr.forEach((mv, i, arr) => mv = MV(4,4));
 print(mvarr);                       // [0,0],[1,1],[2,2],[3,3],[4,4],[5,5]
 // Note that the previous call to `forEach()` did not modify the array
-// since the local variable mv was replaced instead of changed.
+// since the scoped variable mv was replaced instead of modified.
 mvarr.forEach((mv, i, arr) => mv.assign(MV(i+2,i+2)));
 print(mvarr);                       // [2,2],[3,3],[4,4],[5,5],[6,6],[7,7]
 function is_four_four(mv, i, arr) {
@@ -609,12 +609,12 @@ function is_four_four(mv, i, arr) {
     print(`mv [${i}] is ${mv}, which is ${not_str}[four,four]`);
 }
 mvarr.forEach(is_four_four);
-mv [0] is [2,2], which is not [four,four]
-mv [1] is [3,3], which is not [four,four]
-mv [2] is [4,4], which is [four,four]
-mv [3] is [5,5], which is not [four,four]
-mv [4] is [6,6], which is not [four,four]
-mv [5] is [7,7], which is not [four,four]
+// mv [0] is [2,2], which is not [four,four]
+// mv [1] is [3,3], which is not [four,four]
+// mv [2] is [4,4], which is [four,four]
+// mv [3] is [5,5], which is not [four,four]
+// mv [4] is [6,6], which is not [four,four]
+// mv [5] is [7,7], which is not [four,four]
 ```
 
 <hr />
@@ -694,7 +694,7 @@ new array.
 `callbackFn`.
 
 ### Return value
-The new array.
+The new `MVArray` object.
 
 ### Examples
 ```js
@@ -1113,7 +1113,7 @@ largest_sq()
 ```
 
 ### Return value
-`[ index, mv.magnitude_sq() ]` of the largest motion vector.
+An `[ index, mv.magnitude_sq() ]` array of the largest motion vector.
 
 ### Examples
 ```js
@@ -1137,7 +1137,7 @@ smallest_sq()
 ```
 
 ### Return value
-`[ index, mv.magnitude_sq() ]` of the smallest motion vector.
+An `[ index, mv.magnitude_sq() ]` array of the smallest motion vector.
 
 ### Examples
 ```js
@@ -1153,6 +1153,8 @@ print(mvarr.smallest_sq());         // 0,8
 
 The `swap_hv()` method swaps the horizontal and vertical elements of
 all the motion vectors in the array **in-place**.
+If you want to swap just a small chunk of the array, use the
+`subarray()` method and call `swap_hv()` on that.
 
 ### Syntax
 ```js
@@ -1160,7 +1162,7 @@ swap_hv()
 ```
 
 ### Return value
-The modified array.
+The modified motion vector array.
 
 ### Examples
 ```js
@@ -1176,6 +1178,8 @@ print(mvarr);                       // [0,0],[-1,1],[-2,2],[-3,3]
 
 The `clear()` method zeroes the horizontal and vertical elements of all
 of the motion vectors in the array **in-place**.
+If you want to clear just a small chunk of the array, use the
+`subarray()` method and call `clear()` on that.
 
 ### Syntax
 ```js
@@ -1183,7 +1187,7 @@ clear()
 ```
 
 ### Return value
-The modified motion vector.
+The modified motion vector array.
 
 ### Examples
 ```js
@@ -1214,13 +1218,13 @@ length as the array), `null` (only for the `assign` operation), an
 `MV` constant, an `MV` object, or an `MVRef` object, or a motion vector
 specified in terms of its horizontal and vertical components.
 
-The `mvmask` argument is optional, and it must be of type `MVMask`. If
-a mask is supplied, the operation is only applied to the motion vectors
-selected by the mask.
+The `mask` argument is optional, and it must be of type `MVMask`. It
+must have the same length as the array. If a mask is supplied, the
+operation is only applied to the motion vectors selected by the mask.
 
 The operations do exactly what the names mean. `add()` will add the
 argument to the motion vector array, `sub()` will subtract, `mul()`
-will multiply, `div()` will divide (rounding to nearest), and
+will multiply, `div()` will divide (rounding to nearest integer), and
 `assign()` will assign (just copy).
 
 If the motion vector source is a single motion vector, that motion
@@ -1255,26 +1259,26 @@ mathOp(mvarray)
 mathOp(null)
 mathOp(mv)
 mathOp(horizontal, vertical)
-mathOp(mvarray, mvmask)
-mathOp(null, mvmask)
-mathOp(mv, mvmask)
-mathOp(horizontal, vertical, mvmask)
+mathOp(mvarray, mask)
+mathOp(null, mask)
+mathOp(mv, mask)
+mathOp(horizontal, vertical, mask)
 mathOp_h(mvarray)
 mathOp_h(mv)
 mathOp_h(horizontal, vertical)
 mathOp_h(horizontal)
-mathOp_h(mvarray, mvmask)
-mathOp_h(mv, mvmask)
-mathOp_h(horizontal, vertical, mvmask)
-mathOp_h(horizontal, mvmask)
+mathOp_h(mvarray, mask)
+mathOp_h(mv, mask)
+mathOp_h(horizontal, vertical, mask)
+mathOp_h(horizontal, mask)
 mathOp_v(mvarray)
 mathOp_v(mv)
 mathOp_v(horizontal, vertical)
 mathOp_v(vertical)
-mathOp_v(mvarray, mvmask)
-mathOp_v(mv, mvmask)
-mathOp_v(horizontal, vertical, mvmask)
-mathOp_v(vertical, mvmask)
+mathOp_v(mvarray, mask)
+mathOp_v(mv, mask)
+mathOp_v(horizontal, vertical, mask)
+mathOp_v(vertical, mask)
 ```
 
 ### Parameters
@@ -1286,11 +1290,11 @@ mathOp_v(vertical, mvmask)
 
 `vertical` (optional) is the vertical component of the motion vector.
 
-`mvmask` (optional) is an `MVMask` that specifies on which motion
-vectors of the array the operation should be carried out on.
+`mask` (optional) is an `MVMask` that specifies on which motion vectors
+of the array the operation should be carried out on.
 
 ### Return value
-The modified motion vector.
+The modified motion vector array.
 
 ### Examples
 ```js
@@ -1438,7 +1442,7 @@ The function should return either `true` or `false`.
 `compareFn`.
 
 ### Return value
-`true` or `false`.
+An `MVMask` filled with the results from each comparison.
 
 ### Examples
 ```js
@@ -1454,9 +1458,9 @@ print(mvmask);                      // true,false,true,false,true,false
 ```
 
 <hr />
-## MV.prototype.compareOp()
+## MVArray.prototype.compareOp()
 
-There is no real `compareOp()` method in the `MV` prototype.
+There is no real `compareOp()` method in the `MVArray` prototype.
 Instead, there are a bunch of comparison methods, listed below:
 ```js
 compare_eq()
@@ -1642,6 +1646,45 @@ print(mvmask.fill(false, -4, 5));   // false,false,true,false,false,false,true,t
 ```
 
 <hr />
+## MVMask.prototype.forEach()
+
+The `forEach()` method calls the `callbackFn` function for each element
+of the mask array. It has the same functionality as calling the code
+below, but it's slightly faster.
+
+```js
+for ( let i = 0; i < mvmask.length; i++ )
+    callbackFn(mvmask[i], i, mvmask);
+```
+
+### Syntax
+```js
+forEach(callbackFn(element, index, array))
+forEach(callbackFn(element, index, array), thisArg)
+```
+
+### Parameters
+`callbackFn` is a function (`inline`, `arrow`, or normal) that is
+called for each element of the mask array.
+The function's parameters are `element` (the current element being
+tested), `index` (the index it corresponds to in the mask array), and
+`array` (the mask array itself).
+
+`thisArg` (optional) is a value to use as `this` when executing
+`callbackFn`.
+
+### Return value
+`undefined`.
+
+### Examples
+```js
+const mvmask = new MVMask(6);
+print(mvmask);                      // true,true,true,true,true,true
+mvmask.forEach((el,i,arr) => arr[i] = i&1);
+print(mvmask);                      // false,true,false,true,false,true
+```
+
+<hr />
 ## MVMask.prototype.not()
 
 The `not()` method inverts all the elements of a mask array from an
@@ -1697,7 +1740,7 @@ The modified mask array.
 ### Examples
 ```js
 const mvmaskx = new MVMask(8);
-for ( let i = 0; i < 8; i++ ) mvmaskx[i] = (i & 1) ? true : false;
+for ( let i = 0; i < 8; i++ ) mvmaskx[i] = (i & 1);
 const mvmask = new MVMask(8);
 print(mvmask);                      // true,true,true,true,true,true,true,true
 print(mvmaskx);                     // false,true,false,true,false,true,false,true
@@ -1723,7 +1766,7 @@ The modified mask array.
 ### Examples
 ```js
 const mvmaskx = new MVMask(8);
-for ( let i = 0; i < 8; i++ ) mvmaskx[i] = (i & 1) ? true : false;
+for ( let i = 0; i < 8; i++ ) mvmaskx[i] = (i & 1);
 const mvmask = new MVMask(8);
 print(mvmask.fill(false));          // false,false,false,false,false,false,false,false
 print(mvmaskx);                     // false,true,false,true,false,true,false,true
@@ -1749,7 +1792,7 @@ The modified mask array.
 ### Examples
 ```js
 const mvmaskx = new MVMask(8);
-for ( let i = 0; i < 8; i++ ) mvmaskx[i] = (i & 1) ? true : false;
+for ( let i = 0; i < 8; i++ ) mvmaskx[i] = (i & 1);
 const mvmask = new MVMask(8);
 print(mvmask);                      // true,true,true,true,true,true,true,true
 print(mvmaskx);                     // false,true,false,true,false,true,false,true

@@ -41,8 +41,8 @@ There is also a helper `MV2DMask` type.
 - Go to [`MV2DArray`, `MV2DPtr`, and `MV2DMask` documentation](mv2darray)
 
 <hr />
-A `round to nearest integer` method (called `lround()`) has been added
-to the `Math` prototype.
+The `Math.prototype.lround()` method (a `round to nearest integer`
+method) has been added to the to the `Math` prototype.
 It is equivalent to:
 ```js
 Math.lround = (x) => Math.sign(x) * Math.round(Math.abs(x));
