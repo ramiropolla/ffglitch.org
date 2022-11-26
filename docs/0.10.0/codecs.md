@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Codecs
-permalink: /docs/codecs
 ---
 
 # Codecs

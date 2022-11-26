@@ -1,7 +1,6 @@
 ---
 layout: page
 title: ffedit
-permalink: /docs/ffedit
 ---
 
 # ffedit
@@ -261,7 +260,7 @@ rest can be modified by the user.
 Here's the resulting `JSON` file (`mv.json`) from above:
 ```js
 {
-  "ffedit_version":"ffglitch-0.10.0-rc0",
+  "ffedit_version":"ffglitch-0.10.0",
   "filename":"input.avi",
   "sha1sum":"9c37878623c27a5cba7aac099767e5a4463b09fd",
   "features":[
@@ -322,8 +321,7 @@ The `top-level` object has the following `key/value` pairs:
 
 * **ffedit_version**: (informative)
   ffedit version used to generate this `JSON` file.
-  In this example, it was made using an unreleased version of `ffedit`
-  named `"ffglitch-0.10.0-rc0"`.
+  In this example, it was made using version `"ffglitch-0.10.0"`.
 * **filename**: (informative)
   the input media file used to generate this `JSON` file.
   In this example, it was `"input.avi"`.
@@ -361,7 +359,7 @@ Each entry in the `frames` array has the following `key/value` pairs:
 And then, finally, each frame will have one or more `key/value` pairs
 related to each of the `feature`s selected for this stream.
 In this case we have an entry with `mv` (`motion vector`).
-Go to the [`features` documentation](/docs/features) page for more
+Go to the [`features` documentation](features) page for more
 information on each feature.
 
 ## Overview of the functionality

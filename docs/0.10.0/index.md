@@ -1,8 +1,9 @@
 ---
 layout: page
 title: Documentation
-permalink: /docs/
 ---
+
+Welcome to the documentation for `FFglitch 0.10.0`.
 
 FFglitch is three different programs:
 - `ffedit` is the main tool for FFglitch. It is a **multimedia bitstream editor**.
