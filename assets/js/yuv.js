@@ -65,37 +65,6 @@ function draw_ellipsis(g, x, y, width, height)
     return rect;
 }
 
-// const colors = [ [ "lightblue",            "lightcoral",    "lightcyan"    ],
-//                  [ "lightgoldenrodyellow", "lightgreen",    "lightpink"    ],
-//                  [ "lightsalmon",          "lightseagreen", "lightskyblue" ] ];
-// const Y_colors = [ [ "#606060", "#707070", "#808080" ],
-//                    [ "#909090", "#a0a0a0", "#b0b0b0" ],
-//                    [ "#c0c0c0", "#d0d0d0", "#202020" ] ];
-
-function lround(x)
-{
-    const sign = Math.sign(x);
-    x = Math.round(Math.abs(x));
-    if ( x === 0 )
-        return 0;
-    return sign * x;
-}
-function rgb2yuv(r, g, b)
-{
-    y = lround( 0.299 * r + 0.587 * g + 0.114 * b);
-    u = lround(-0.169 * r - 0.331 * g + 0.500 * b) + 128;
-    v = lround( 0.500 * r - 0.419 * g - 0.081 * b) + 128;
-    return [ y, u, v ];
-}
-function yuv2rgb(y, u, v)
-{
-    u -= 128;
-    v -= 128;
-    r = lround(1.000 * y + 0.000 * u + 1.400 * v);
-    g = lround(1.000 * y - 0.343 * u - 0.711 * v);
-    b = lround(1.000 * y + 1.765 * u + 0.000 * v);
-    return [ r, g, b ];
-}
 function yuv2falsergb(compn, val)
 {
     let r;
@@ -121,47 +90,13 @@ function yuv2falsergb(compn, val)
     }
     return `rgb(${r}, ${g}, ${b})`;
 }
-function makergbstr(rgb)
-{
-    r = rgb[0];
-    g = rgb[1];
-    b = rgb[2];
-    return `rgb(${r}, ${g}, ${b})`;
-}
 let colors = { "Y":[[],[],[]], "U":[[],[],[]], "V":[[],[],[]] };
 function build_colors()
 {
-//     const str = "012345678910111213141516171819202122232425";
-    // const str = "01123581321345589144233377";
-    // const str = "141421356237309504880168872420969807856967187537694807317667973799";
-    // const str = "173205080756887729352744634150"
-    // const str = "3243F6A8885A308D313198A2E037073098098098";
-    // const str = "271828182845904523536028747135266249775724709369995";
-    // const str = "314159265358979323846264338327950288419716";
-//     let q = 0;
-//     function get_next_val(str, q) {
-//         let val = str.charCodeAt(q);
-//         val -= 0x30; /* 0 */
-//         val <<= 4;
-//         val += 0x30; /* 0x30 -> 0xc0 */
-//         return val;
-//     }
     for ( let i = 0; i < 3; i++ )
     {
         for ( let j = 0; j < 3; j++ )
         {
-//             if ( 0 )
-//             {
-//                 const r = get_next_val(str, q++);
-//                 const g = get_next_val(str, q++);
-//                 const b = get_next_val(str, q++);
-//                 const yuv = rgb2yuv(r, g, b);
-//                 const rgb_Y = yuv2falsergb(0, yuv[0]);
-//                 const rgb_U = yuv2falsergb(1, yuv[1]);
-//                 const rgb_V = yuv2falsergb(2, yuv[2]);
-//             }
-//             else
-//             {
             const q = (i * 3) + j;
             const rgb_Y = yuv2falsergb(0, 0x60 + (q * 16));
             const rgb_U = yuv2falsergb(1, 0x40 + (q * 12));
@@ -169,29 +104,25 @@ function build_colors()
             colors["Y"][i][j] = rgb_Y;
             colors["U"][i][j] = rgb_U;
             colors["V"][i][j] = rgb_V;
-//             }
         }
     }
 }
-build_colors();
 function shuffle_colors()
 {
     for ( let i = 8; i > 0; i-- )
     {
-        // Pick a remaining element.
         let j = Math.floor(Math.random() * (i+1));
         const ii = Math.floor(i/3);
         const ij = Math.floor(i%3);
         const ji = Math.floor(j/3);
         const jj = Math.floor(j%3);
         let t;
-
-        // And swap it with the current element.
         t = colors["Y"][ii][ij]; colors["Y"][ii][ij] = colors["Y"][ji][jj]; colors["Y"][ji][jj] = t;
         t = colors["U"][ii][ij]; colors["U"][ii][ij] = colors["U"][ji][jj]; colors["U"][ji][jj] = t;
         t = colors["V"][ii][ij]; colors["V"][ii][ij] = colors["V"][ji][jj]; colors["V"][ji][jj] = t;
     }
 }
+build_colors();
 shuffle_colors()
 
 function get_color(plane, ii, jj)
