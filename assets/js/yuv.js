@@ -1,5 +1,13 @@
-let svg_ns = "http://www.w3.org/2000/svg";
+/*********************************************************************/
+import { mario_rgb } from "./frame_data.js";
+import { frame_rgb2yuv } from "./rgb2yuv.js";
+import { Table } from "./table.js";
+import { Pixels } from "./pixels.js";
 
+/*********************************************************************/
+const svg_ns = "http://www.w3.org/2000/svg";
+
+/*********************************************************************/
 function draw_pixel(g, plane, i, j, x, y, color)
 {
     let text = document.createElementNS(svg_ns, "text");
@@ -30,12 +38,6 @@ function draw_pixel(g, plane, i, j, x, y, color)
     rect.setAttribute("width", Math.ceil(b_box.width) + 4);
     rect.setAttribute("height", Math.ceil(b_box.height) + 4);
     g.prepend(rect);
-
-//     console.log("main", main.getBBox());
-//     console.log("index", index.getBBox());
-//     console.log("text", text.getBBox());
-//     console.log("rect", rect.getBBox());
-
     return rect;
 }
 
@@ -67,32 +69,15 @@ function draw_ellipsis(g, x, y, width, height)
 
 function yuv2falsergb(compn, val)
 {
-    let r;
-    let g;
-    let b;
-    if ( compn == 0 )
-    {
-      r = val;
-      g = val;
-      b = val;
-    }
-    else if ( compn === 1 )
-    {
-      r = 0;
-      g = 255 - val;
-      b = val;
-    }
+    if ( compn === 1 )
+        return `rgb(${0}, ${255-val}, ${val})`;
     else if ( compn === 2 )
-    {
-      r = val;
-      g = 255 - val;
-      b = 0;
-    }
-    return `rgb(${r}, ${g}, ${b})`;
+        return `rgb(${val}, ${255-val}, ${0})`;
+    return `rgb(${val}, ${val}, ${val})`;
 }
-let colors = { "Y":[[],[],[]], "U":[[],[],[]], "V":[[],[],[]] };
 function build_colors()
 {
+    let ret = { "Y":[[],[],[]], "U":[[],[],[]], "V":[[],[],[]] };
     for ( let i = 0; i < 3; i++ )
     {
         for ( let j = 0; j < 3; j++ )
@@ -101,13 +86,14 @@ function build_colors()
             const rgb_Y = yuv2falsergb(0, 0x60 + (q * 16));
             const rgb_U = yuv2falsergb(1, 0x40 + (q * 12));
             const rgb_V = yuv2falsergb(2, 0x60 + (q * 16));
-            colors["Y"][i][j] = rgb_Y;
-            colors["U"][i][j] = rgb_U;
-            colors["V"][i][j] = rgb_V;
+            ret["Y"][i][j] = rgb_Y;
+            ret["U"][i][j] = rgb_U;
+            ret["V"][i][j] = rgb_V;
         }
     }
+    return ret;
 }
-function shuffle_colors()
+function shuffle_colors(data)
 {
     for ( let i = 8; i > 0; i-- )
     {
@@ -117,13 +103,13 @@ function shuffle_colors()
         const ji = Math.floor(j/3);
         const jj = Math.floor(j%3);
         let t;
-        t = colors["Y"][ii][ij]; colors["Y"][ii][ij] = colors["Y"][ji][jj]; colors["Y"][ji][jj] = t;
-        t = colors["U"][ii][ij]; colors["U"][ii][ij] = colors["U"][ji][jj]; colors["U"][ji][jj] = t;
-        t = colors["V"][ii][ij]; colors["V"][ii][ij] = colors["V"][ji][jj]; colors["V"][ji][jj] = t;
+        t = data["Y"][ii][ij]; data["Y"][ii][ij] = data["Y"][ji][jj]; data["Y"][ji][jj] = t;
+        t = data["U"][ii][ij]; data["U"][ii][ij] = data["U"][ji][jj]; data["U"][ji][jj] = t;
+        t = data["V"][ii][ij]; data["V"][ii][ij] = data["V"][ji][jj]; data["V"][ji][jj] = t;
     }
 }
-build_colors();
-shuffle_colors()
+let colors = build_colors();
+shuffle_colors(colors);
 
 function get_color(plane, ii, jj)
 {
@@ -188,50 +174,12 @@ function draw_frame(g, plane, x, y, is_half_h, is_half_v, is_full)
     return g2;
 }
 
-function polyline_add_point(svg, polyline, x, y)
-{
-    const point = svg.createSVGPoint();
-    point.x = x;
-    point.y = y;
-    polyline.points.appendItem(point);
-}
-
-function draw_line(svg, g, start_x, start_y, width, height)
-{
-    let polyline = document.createElementNS(svg_ns, "polyline");
-    polyline.setAttribute("class", "line_arrow");
-    polyline.style.stroke = "grey";
-    polyline.style.fill = "none";
-    polyline.style.strokeLinecap = "round";
-    polyline.style.strokeWidth = "4";
-    polyline.style.markerEnd = "url(#arrowhead)";
-    polyline_add_point(svg, polyline, start_x, start_y);
-    polyline_add_point(svg, polyline, start_x + width, start_y + height);
-    g.append(polyline);
-}
-
 function draw_yuv(div, is_half_h, is_half_v)
 {
     let svg = document.createElementNS(svg_ns, "svg");
     svg.setAttribute("font-family", "monospace");
     div.append(svg);
-
-    let defs = document.createElementNS(svg_ns, "defs");
-    svg.append(defs);
-
-    let arrowhead = document.createElementNS(svg_ns, "marker");
-    arrowhead.setAttribute("id", "arrowhead");
-    arrowhead.setAttribute("markerWidth", "2");
-    arrowhead.setAttribute("markerHeight", "2");
-    arrowhead.setAttribute("refX", "0");
-    arrowhead.setAttribute("refY", "1");
-    arrowhead.setAttribute("orient", "auto");
-    defs.append(arrowhead);
-
-    let polygon = document.createElementNS(svg_ns, "polygon");
-    polygon.setAttribute("points", "0 0, 2 1, 0 2");
-    polygon.setAttribute("fill", "grey");
-    arrowhead.append(polygon);
+    div.append(document.createElement("p"));
 
     let g = document.createElementNS(svg_ns, "g");
     svg.append(g);
@@ -255,23 +203,40 @@ function draw_yuv(div, is_half_h, is_half_v)
         draw_frame(g, "V", V_x, V_y, is_half_h, is_half_v, false);
     }
 
-    if ( is_half_h || is_half_v )
-    {
-        let x = 0;
-        let y = final_height + 48;
-        let Y = draw_frame(g, "Y", x, y, false, false, true);
-        const b_box = Y.getBBox();
-        const full_width = b_box.width;
-        const full_height = b_box.height;
-        const U_x = x + full_width + 16;
-        const V_x = x + full_width + 16 + full_width + 16;
-        draw_frame(g, "U", U_x, y, is_half_h, is_half_v, true);
-        draw_frame(g, "V", V_x, y, is_half_h, is_half_v, true);
-        draw_line(svg, g, (0 * (full_width + 16)) + (full_width / 2), final_height + 8, 0, 28);
-        draw_line(svg, g, (1 * (full_width + 16)) + (full_width / 2), final_height + 8, 0, 28);
-        draw_line(svg, g, (2 * (full_width + 16)) + (full_width / 2), final_height + 8, 0, 28);
-        final_height = y + full_height;
-    }
+    svg.setAttribute("width", final_width + "px");
+    svg.setAttribute("height", final_height + "px");
+
+    svg.style.margin = "0 auto";
+    svg.style.display = "block";
+    svg.style.width = final_width;
+    svg.style.height = final_height;
+}
+
+function draw_yuv_reconstructed(div, is_half_h, is_half_v)
+{
+    let svg = document.createElementNS(svg_ns, "svg");
+    svg.setAttribute("font-family", "monospace");
+    div.append(svg);
+    div.append(document.createElement("p"));
+
+    let g = document.createElementNS(svg_ns, "g");
+    svg.append(g);
+
+    let final_width = 0;
+    let final_height = 0;
+
+    let x = 0;
+    let y = 0;
+    let Y = draw_frame(g, "Y", x, y, false, false, true);
+    const b_box = Y.getBBox();
+    const full_width = b_box.width;
+    const full_height = b_box.height;
+    const U_x = x + full_width + 16;
+    const V_x = x + full_width + 16 + full_width + 16;
+    draw_frame(g, "U", U_x, y, is_half_h, is_half_v, true);
+    draw_frame(g, "V", V_x, y, is_half_h, is_half_v, true);
+    final_width = x + full_width + 16 + full_width + 16 + full_width;
+    final_height = y + full_height;
 
     svg.setAttribute("width", final_width + "px");
     svg.setAttribute("height", final_height + "px");
@@ -289,3 +254,80 @@ let yuv420 = document.getElementById("div_yuv420");
 draw_yuv(yuv444, false, false);
 draw_yuv(yuv422, true, false);
 draw_yuv(yuv420, true, true);
+
+let yuv422_reconstructed = document.getElementById("div_yuv422_reconstructed");
+let yuv420_reconstructed = document.getElementById("div_yuv420_reconstructed");
+
+draw_yuv_reconstructed(yuv422_reconstructed, true, false);
+draw_yuv_reconstructed(yuv420_reconstructed, true, true);
+
+
+
+
+
+/*********************************************************************/
+const frame_rgb = mario_rgb;
+const frame_yuv = frame_rgb2yuv(frame_rgb);
+
+/*********************************************************************/
+function draw_pixel_numbers(div)
+{
+  let svg = document.createElementNS(svg_ns, "svg");
+  svg.setAttribute("font-family", "monospace");
+  svg.setAttribute("font-size", "11px");
+  div.append(svg);
+  div.append(document.createElement("p"));
+
+  let pixels_rgb = new Pixels(svg, 8, 8);
+  let pixels_rgb_y = new Pixels(svg, 8, 8);
+  let pixels_rgb_u = new Pixels(svg, 8, 8);
+  let pixels_rgb_v = new Pixels(svg, 8, 8);
+  let values_false_y = new Table(svg, 8, 8, 1.2, "000");
+  let values_false_u = new Table(svg, 8, 8, 1.2, "000");
+  let values_false_v = new Table(svg, 8, 8, 1.2, "000");
+
+  pixels_rgb.redraw_rgb(frame_rgb);
+  pixels_rgb_y.redraw_yuv_compn(frame_yuv, 0);
+  pixels_rgb_u.redraw_yuv_compn(frame_yuv, 1);
+  pixels_rgb_v.redraw_yuv_compn(frame_yuv, 2);
+  values_false_y.redraw_yuv_compn_values(frame_yuv, 0);
+  values_false_u.redraw_yuv_compn_values(frame_yuv, 1);
+  values_false_v.redraw_yuv_compn_values(frame_yuv, 2);
+
+  const block_b_box = pixels_rgb_y.g.getBBox();
+  const block_width = block_b_box.width;
+  const block_height = block_b_box.height;
+  const table_b_box = values_false_y.g.getBBox();
+  const table_width = table_b_box.width;
+  const table_height = table_b_box.height;
+
+  const final_width = table_width + 16 + table_width + 16 + table_width;
+  const final_height = block_height + 16 + block_height + 16 + table_height;
+
+  const col0_x = ((table_width + 16) * 0) + (table_width / 2);
+  const col1_x = ((table_width + 16) * 1) + (table_width / 2);
+  const col2_x = ((table_width + 16) * 2) + (table_width / 2);
+  const row0_y = ((block_height + 16) * 0);
+  const row1_y = ((block_height + 16) * 1);
+  const row2_y = ((block_height + 16) * 2);
+
+  pixels_rgb    .set_g_pos(col1_x - (block_width / 2), row0_y);
+  pixels_rgb_y  .set_g_pos(col0_x - (block_width / 2), row1_y);
+  pixels_rgb_u  .set_g_pos(col1_x - (block_width / 2), row1_y);
+  pixels_rgb_v  .set_g_pos(col2_x - (block_width / 2), row1_y);
+  values_false_y.set_g_pos(col0_x - (table_width / 2), row2_y);
+  values_false_u.set_g_pos(col1_x - (table_width / 2), row2_y);
+  values_false_v.set_g_pos(col2_x - (table_width / 2), row2_y);
+
+  svg.setAttribute("width", final_width + "px");
+  svg.setAttribute("height", final_height + "px");
+
+  svg.style.margin = "0 auto";
+  svg.style.display = "block";
+  svg.style.width = final_width;
+  svg.style.height = final_height;
+}
+
+/*********************************************************************/
+let pixel_numbers = document.getElementById("pixel_numbers");
+draw_pixel_numbers(pixel_numbers);
