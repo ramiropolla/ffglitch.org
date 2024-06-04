@@ -618,7 +618,7 @@ export function setup(args)
   // select pixel format
   args.pix_fmt = opt_pix_fmt;
 
-  // initialize RtMiti and list ports
+  // initialize RtMidi and list ports
   midiin = new RtMidiIn();
   const portCount = midiin.getPortCount();
   console.log(`rtmidi port count: ${portCount}`);
