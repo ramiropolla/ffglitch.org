@@ -1,6 +1,7 @@
 ---
 layout: page
 title: MVArray, MVPtr, and MVMask
+permalink: /docs/0.10.0/quickjs/mvarray/
 ---
 
 # MVArray, MVPtr, and MVMask

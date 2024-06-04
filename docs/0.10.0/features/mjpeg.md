@@ -1,6 +1,7 @@
 ---
 layout: page
 title: JPEG features
+permalink: /docs/0.10.0/features/mjpeg/
 ---
 
 # JPEG features
@@ -209,4 +210,4 @@ So I won't even bother explaining it.
 * The Huffman Table value for this amount of bits.
 
 <!-------------------------------------------------------------------->
-<script type="module" src="mjpeg.js"></script>
+<script type="module" src="../mjpeg.js"></script>

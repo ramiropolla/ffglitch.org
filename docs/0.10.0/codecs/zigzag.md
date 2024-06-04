@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Zig-Zag and Run-Length Encoding
+permalink: /docs/0.10.0/codecs/zigzag/
 ---
 
 # Zig-Zag and Run-Length Encoding
@@ -162,4 +163,4 @@ Well, that's a very good question.
 Go on to [`Huffman Coding` overview](huffman) to see how those codes
 will be finally encoded in the output.
 
-<script type="module" src="zigzag.js"></script>
+<script type="module" src="../zigzag.js"></script>

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: JPEG
+permalink: /docs/0.10.0/codecs/mjpeg/
 ---
 
 # JPEG Overview

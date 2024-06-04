@@ -1,6 +1,7 @@
 ---
 layout: page
 title: SDL
+permalink: /docs/0.10.0/quickjs/sdl/
 ---
 
 # SDL
@@ -393,4 +394,4 @@ $ fflive -i input.avi -s script.js -sp 3
 ```
 
 <!-------------------------------------------------------------------->
-<script type="module" src="sdl.js"></script>
+<script type="module" src="../sdl.js"></script>

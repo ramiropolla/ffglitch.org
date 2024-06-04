@@ -1,6 +1,7 @@
 ---
 layout: page
 title: MPEG-4
+permalink: /docs/0.10.0/codecs/mpeg4/
 ---
 
 # MPEG-4

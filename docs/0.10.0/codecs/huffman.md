@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Huffman Coding
+permalink: /docs/0.10.0/codecs/huffman/
 ---
 
 # Huffman Coding
@@ -72,7 +73,7 @@ dimensions represent the following:
   top left corner to the bottom right corner:
 -->
 
-<script type="module" src="huffman.js"></script>
+<script type="module" src="../huffman.js"></script>
 
 <p markdown="1" class="centered">
 ![Unter Konstruktion!](/assets/images/under_construction.gif)

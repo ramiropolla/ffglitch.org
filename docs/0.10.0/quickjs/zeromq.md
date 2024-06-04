@@ -1,6 +1,7 @@
 ---
 layout: page
 title: ZeroMQ
+permalink: /docs/0.10.0/quickjs/zeromq/
 ---
 
 # ZeroMQ

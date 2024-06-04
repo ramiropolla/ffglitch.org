@@ -1,6 +1,7 @@
 ---
 layout: page
 title: MPEG4 features
+permalink: /docs/0.10.0/features/mpeg4/
 ---
 
 # MPEG-4 features
@@ -190,4 +191,4 @@ I'll document this later if anyone reeeealy wants it.
 -->
 
 <!-------------------------------------------------------------------->
-<script type="module" src="mpeg4.js"></script>
+<script type="module" src="../mpeg4.js"></script>

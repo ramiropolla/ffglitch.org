@@ -1,6 +1,7 @@
 ---
 layout: page
 title: MPEG-2
+permalink: /docs/0.10.0/codecs/mpeg2/
 ---
 
 # MPEG-2

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: ffedit
+permalink: /docs/0.10.0/ffedit/
 ---
 
 # ffedit
@@ -540,4 +541,4 @@ nor does it do any re-muxing of the file.
 Everything works in the **bitstream** level.
 
 <!-------------------------------------------------------------------->
-<script type="module" src="ffedit.js"></script>
+<script type="module" src="../ffedit.js"></script>

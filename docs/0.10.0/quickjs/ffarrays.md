@@ -1,6 +1,7 @@
 ---
 layout: page
 title: FFArrays and FFPtrs
+permalink: /docs/0.10.0/quickjs/ffarrays/
 ---
 
 # FFArrays and FFPtrs

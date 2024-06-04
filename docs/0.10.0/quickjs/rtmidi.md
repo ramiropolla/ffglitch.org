@@ -1,6 +1,7 @@
 ---
 layout: page
 title: RtMidi
+permalink: /docs/0.10.0/quickjs/rtmidi/
 ---
 
 # RtMidi

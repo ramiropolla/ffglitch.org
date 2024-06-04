@@ -1,6 +1,7 @@
 ---
 layout: page
 title: MV2DArray, MV2DPtr, and MV2DMask
+permalink: /docs/0.10.0/quickjs/mv2darray/
 ---
 
 # MV2DArray, MV2DPtr, and MV2DMask

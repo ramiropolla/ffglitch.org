@@ -1,6 +1,7 @@
 ---
 layout: page
 title: DCT and Quantization
+permalink: /docs/0.10.0/codecs/dct_quant/
 ---
 
 # DCT and Quantization
@@ -222,4 +223,4 @@ that basically tweaks the **quantization table** up to a point where
 your puny little eyes can barely notice that anything changed at all,
 while at the same time achieving very high levels of compression.
 
-<script type="module" src="dct_quant.js"></script>
+<script type="module" src="../dct_quant.js"></script>

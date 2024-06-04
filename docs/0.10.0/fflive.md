@@ -1,6 +1,7 @@
 ---
 layout: page
 title: fflive
+permalink: /docs/0.10.0/fflive/
 ---
 
 # fflive

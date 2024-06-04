@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Bitstream
+permalink: /docs/0.10.0/codecs/bitstream/
 ---
 
 # Bitstream

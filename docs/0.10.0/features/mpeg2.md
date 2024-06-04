@@ -1,6 +1,7 @@
 ---
 layout: page
 title: MPEG2 features
+permalink: /docs/0.10.0/features/mpeg2/
 ---
 
 # MPEG-2 features
@@ -276,4 +277,4 @@ reorder them and still have a valid bitstream.
   transplicating. Do not change these values.
 
 <!-------------------------------------------------------------------->
-<script type="module" src="mpeg2.js"></script>
+<script type="module" src="../mpeg2.js"></script>

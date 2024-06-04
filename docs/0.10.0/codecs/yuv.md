@@ -1,6 +1,7 @@
 ---
 layout: page
 title: YUV
+permalink: /docs/0.10.0/codecs/yuv/
 ---
 
 # RGB
@@ -176,4 +177,4 @@ Notice that the pixels in the `chroma` planes have been duplicated both
 
 <div id="div_yuv420_upsampled"></div>
 
-<script type="module" src="yuv.js"></script>
+<script type="module" src="../yuv.js"></script>
