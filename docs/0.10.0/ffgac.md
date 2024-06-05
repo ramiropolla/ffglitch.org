@@ -463,13 +463,13 @@ ffgac.pixelsort(data, [ range y ], [ range x ], options);
 
 Where
 
-`range_y` is an array with two elements: the first and last lines to pixelsort.
-To pixelsort all lines, use `[ 0, data[0].length ]`.
+`range_y` is an array with two elements: the first and last rows to pixelsort.
+To pixelsort all rows, use `[ 0, data[0].length ]`.
 
 and
 
-`range_x` is an array with two elements: the first and last rows to pixelsort.
-To pixelsort all rows, use `[ 0, data[0][0].length ]`.
+`range_x` is an array with two elements: the first and last columns to pixelsort.
+To pixelsort all columns, use `[ 0, data[0][0].length ]`.
 
 and
 
