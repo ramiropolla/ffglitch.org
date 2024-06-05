@@ -25,9 +25,9 @@ $ fflive -i input.avi -s script.js -sp 42
 ## Input support
 
 Remember that FFglitch supports
-keyboard, mouse, and joysticks as input devices with [`SDL`](quickjs/sdl),
-MIDI controllers as input devices with [`RtMidi`](quickjs/rtmidi),
-and network communication with [`ZeroMQ`](quickjs/zeromq).
+keyboard, mouse, and joysticks as input devices with [`SDL`](../quickjs/sdl),
+MIDI controllers as input devices with [`RtMidi`](../quickjs/rtmidi),
+and network communication with [`ZeroMQ`](../quickjs/zeromq).
 (hint hint click the links above).
 
 <!--
