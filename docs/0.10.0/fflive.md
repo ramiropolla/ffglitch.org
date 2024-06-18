@@ -11,7 +11,7 @@ permalink: /docs/0.10.0/fflive/
 # Usage
 
 Its usage is very similar to `ffedit` in
-[`Transplicate with script`](ffedit#transplicate-with-script) mode,
+[`Transplicate with script`](../ffedit#transplicate-with-script) mode,
 so go read that documentation if you haven't already.
 The main difference is that you will get live video playback while transplicating.
 
