@@ -16,7 +16,7 @@ fossilized pixels in the Siberian permafrost.
 The `JPEG` codec doesn't work with the `RGB` pixel format that most
 people know about. Instead, it works with `YUV` pixel formats.
 
-- Go to [`YUV` overview](yuv)
+- Go to [`YUV` overview](../yuv)
 
 The `JPEG` codec supports the most common `YUV` pixel formats:
 `YUV444`, `YUV422`, or `YUV420`, among others.
@@ -26,7 +26,7 @@ The `JPEG` codec works with blocks of `8x8` pixels.
 But the codec won't encode the pixels themselves. Instead, it will
 encode the `quantized` `DCT coefficients` of the `8x8` block.
 
-- Go to [`DCT and Quantization` overview](dct_quant)
+- Go to [`DCT and Quantization` overview](../dct_quant)
 
 ## Zig-Zag and Run-Length Encoding
 The `JPEG` codec `flattens` the `8x8` block of `quantized`
@@ -34,7 +34,7 @@ The `JPEG` codec `flattens` the `8x8` block of `quantized`
 `run-length encoding`.
 What does that mean?
 
-- Go to [`Zig-Zag and Run-Length Encoding` overview](zigzag) to find out
+- Go to [`Zig-Zag and Run-Length Encoding` overview](../zigzag) to find out
 
 ## Huffman Coding
 After `flattenning` the `8x8` block of `quantized` `DCT coefficients`,
@@ -42,8 +42,8 @@ and encoding them in a zig-zag order using `run-length encoding`,
 the `JPEG` codec writes the line to the `bitstream` using
 `Huffman Coding`.
 
-- Go to [`Bitstream` overview](bitstream)
-- Go to [`Huffman Coding` overview](huffman)
+- Go to [`Bitstream` overview](../bitstream)
+- Go to [`Huffman Coding` overview](../huffman)
 
 <!--
 ## Macroblocks
