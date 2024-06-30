@@ -6,7 +6,7 @@ permalink: /docs/0.10.0/codecs/zigzag/
 
 # Zig-Zag and Run-Length Encoding
 
-From the [`DCT and Quantization` overview](dct_quant), we learned that
+From the [`DCT and Quantization` overview](../dct_quant), we learned that
 some codecs will transform the pixels into the frequency domain using
 the
 [`Discrete Cosine Transform`](https://en.wikipedia.org/wiki/Discrete_cosine_transform)
@@ -143,7 +143,7 @@ Note: if the last element is **non-zero**, we don't need to encode the
 
 The `DC` coefficient (remember: that's the first coefficient) is a bit
 different from the rest. First of all, it has a different range from
-the `AC` coefficients ([`DCT and Quantization` overview](dct_quant)).
+the `AC` coefficients ([`DCT and Quantization` overview](../dct_quant)).
 Also, it will always have a `run` of `0`, since it is the first
 element, so we don't need to include the `run` in the code.
 So let's encode it differently:
@@ -160,7 +160,7 @@ in the bitstream?** Or not... You're probably not asking yourself that.
 But let's pretend you did ask that.
 
 Well, that's a very good question.
-Go on to [`Huffman Coding` overview](huffman) to see how those codes
+Go on to [`Huffman Coding` overview](../huffman) to see how those codes
 will be finally encoded in the output.
 
 <script type="module" src="../zigzag.js"></script>

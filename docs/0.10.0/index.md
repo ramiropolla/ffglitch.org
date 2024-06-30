@@ -34,7 +34,7 @@ FFglitch supports some
 and some `features` inside some
 [`codecs`](https://en.wikipedia.org/wiki/Codec).
 This is where the main glitching happens, but you need to know what you
-dealing with in order to glitch well.
+are dealing with in order to glitch well.
 
 - Go to [`container formats` documentation](formats)
 - Go to [`codecs` documentation](codecs)

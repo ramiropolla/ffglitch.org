@@ -32,7 +32,7 @@ section.
 </p>
 
 Remember that
-[pixels are just numbers](yuv#pixels-are-just-numerical-values)?
+[pixels are just numbers](../yuv#pixels-are-just-numerical-values)?
 Well, that's pretty convenient, because the `DCT` works with numbers.
 This is the result of running Mario's face through the **magical box**
 of `DCT`:

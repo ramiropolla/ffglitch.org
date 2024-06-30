@@ -179,7 +179,7 @@ parameters for a frame.
 numbers each.
 
 I don't remember how the `gmc` calculation is done.
-I'll document this later if anyone reeeealy wants it.
+I'll document this later if anyone reeeeally wants it.
 
 <!--TODO improve-->
 <!--

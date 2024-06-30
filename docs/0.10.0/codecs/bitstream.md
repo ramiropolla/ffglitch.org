@@ -82,7 +82,7 @@ sequences would be:
 
 | Bit sequence | Byte (decimal) | Byte (hex) | Meaning |
 |--------------|----------------|------------|---------|
-| `00100011`   | `35`           | `0x23`     | The number sign `#` (no, this is not a _hashtag_) |
+| `00100011`   | `35`           | `0x23`     | The number sign `#` (no, this is _still_ not a _hashtag_) |
 | `00110111`   | `55`           | `0x37`     | The number `7` |
 | `01000001`   | `65`           | `0x41`     | The uppercase letter `A` |
 | `01100001`   | `97`           | `0x61`     | The lowercase letter `a` |

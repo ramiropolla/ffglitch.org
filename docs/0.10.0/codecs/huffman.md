@@ -11,7 +11,7 @@ is a beautifully simple `variable-length` `entropy coding` method used
 in lossless data compression.
 
 It works by replacing `fixed-length` **symbols** (for example, 8-bit
-[bytes](bitstream#byte)) by `variable-length` **codes**.
+[bytes](../bitstream#byte)) by `variable-length` **codes**.
 These **codes** can be shorter or longer than the original **symbols**
 (hence why they are called **variable**-length).
 
@@ -35,7 +35,7 @@ Hovering over symbols in the input should highlight the codes in the output (and
 But how does that apply to our JPEG? Well, we first need to know what it is that we will be encoding.
 Let's have another look at the `flattened` **quantized coefficients**
 we had at the end of the
-[`Zig-Zag and Run-Length Encoding` overview](zigzag).
+[`Zig-Zag and Run-Length Encoding` overview](../zigzag).
 
 <div id="zz_line_zigzag_rle"></div>
 
