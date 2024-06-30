@@ -8,13 +8,13 @@ Get **Windows** binaries here:
 <br />
 [https://ffglitch.org/pub/bin/win64/ffglitch-0.10.0-win64.7z](https://ffglitch.org/pub/bin/win64/ffglitch-0.10.0-win64.7z)
 
-Get **Linux** binaries here:
-<br />
-[https://ffglitch.org/pub/bin/linux64/ffglitch-0.10.0-linux64.7z](https://ffglitch.org/pub/bin/linux64/ffglitch-0.10.0-linux64.7z)
-
 Get **macOS** binaries here:
 <br />
 [https://ffglitch.org/pub/bin/mac64/ffglitch-0.10.0-mac64.7z](https://ffglitch.org/pub/bin/mac64/ffglitch-0.10.0-mac64.7z)
+
+Get **Linux** binaries here:
+<br />
+[https://ffglitch.org/pub/bin/linux64/ffglitch-0.10.0-linux64.7z](https://ffglitch.org/pub/bin/linux64/ffglitch-0.10.0-linux64.7z)
 
 You probably don't need to build FFglitch from **source code**,
 but if you really insist, here it is:
