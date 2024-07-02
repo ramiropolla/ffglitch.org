@@ -629,6 +629,8 @@ export function setup(args)
   }
 
   // parse params (a number is expected)
+  if ( !("params" in args) )
+    throw new Error("A parameter is expected for the MIDI port number in the command line (use -sp <port number>).");
   const port = args.params;
   const ok = typeof port === 'number'
           && Number.isInteger(port)

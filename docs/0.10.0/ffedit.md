@@ -340,7 +340,11 @@ export function setup(args)
   console.log(`Output filename is "${output_fname}"`);
 
   // initialize variables from input parameter
-  mv_param = MV(args.params);
+  try {
+    mv_param = MV(args.params);
+  } catch (TypeError) {
+    throw new Error("A parameter is expected for the motion vector in the command line (use -sp <'[x,y]'>).");
+  }
   console.log(`Motion vector parameter is ${mv_param}`);
 }
 

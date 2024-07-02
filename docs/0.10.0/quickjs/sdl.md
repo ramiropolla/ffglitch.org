@@ -347,6 +347,8 @@ export function setup(args)
   args.features = [ "mv" ];
 
   // parse params from command line (a number is expected)
+  if ( !("params" in args) )
+    throw new Error("A parameter is expected for the step in the command line (use -sp <step>).");
   step = args.params;
 
   // initialize SDL with first joystick
@@ -362,6 +364,9 @@ export function glitch_frame(frame)
   const fwd_mvs = frame.mv?.forward;
   if ( !fwd_mvs )
     return;
+
+  // set motion vector overflow behaviour in ffglitch to "truncate"
+  frame.mv.overflow = "truncate";
 
   // parse all SDL events
   while ( true )
