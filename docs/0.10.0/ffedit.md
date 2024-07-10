@@ -293,7 +293,7 @@ The argument `frame` is an object that will contain one entry for each `feature`
 
 <span id="ffedit_glitch_frame_frame_feature">TODO</span>: `object`:<br />
 * Each `feature` object has a different `keyname` (such as `info`, `mv`, `mv_delta`, etc).
-* Each `feature` object has a different structure for its `value`, as detailed in the [features overview](features).
+* Each `feature` object has a different structure for its `value`, as detailed in the [features overview](../features).
 
 The argument `stream` is an (informative) object that will contain the following `key/value` pairs:
 
@@ -500,7 +500,7 @@ means `not present`.
 * And then, finally, each frame will have one or more `key/value` pairs
   related to each of the `feature`s selected for this stream.
   In this case we have an entry with `mv` (`motion vector`).
-* Go to the [`features` documentation](features) page for more
+* Go to the [`features` documentation](../features) page for more
   information on each feature.
 
 <!--
