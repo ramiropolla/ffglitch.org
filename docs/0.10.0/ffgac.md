@@ -96,8 +96,10 @@ Glitched video with +forcemv+nopimb. That one annoying grass in the foreground i
 
 `ffmpeg` has an arbitrary limitation of `600` frames between
 `keyframes` in `MPEG2` and `MPEG4` encoders. That's about `20` seconds
-if you're going at `30` fps. And with each `keyframe`, you get an `I`
-frame, which resets all your glitches.
+if you're going at `30` fps.
+There is also a [`scene change`](https://en.wikipedia.org/wiki/Shot_transition_detection)
+algorithm in `ffmpeg` that might force a `keyframe` in the encoder.
+And with each `keyframe`, you get an `I` frame, which resets all your glitches.
 
 But what if you want your glitch to last ***your entire acid trip***?
 It'd be a bummer if you would get called back to reality every `20`
@@ -106,10 +108,13 @@ seconds.
 Sure, you *could* remove the `I` frames with some other glitch tool,
 but what about just not having them there in the first place?
 
-To do that, while encoding an `MPEG2` or `MPEG4` file, add the following
-option to the `ffgac` command line:
+To do that, while encoding an `MPEG2` or `MPEG4` file, you need to set
+the [Group of Pictures (GOP)](https://en.wikipedia.org/wiki/Group_of_pictures)
+size to a large value, and also raise the scene change threshold to a
+large value.
+You can achieve that by adding the following options to the `ffgac` command line:
 
-`-g max`
+`-g max -sc_threshold max`
 
 and there you go. No more `I` frames.
 
