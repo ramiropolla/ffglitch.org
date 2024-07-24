@@ -261,6 +261,16 @@ print(mv.magnitude_sq()); // 13
 ```
 
 <hr />
+## MV.prototype.pop_pop()
+
+See [`MV.prototype.magnitude()`](#mvprototypemagnitude).
+
+<hr />
+## MV.prototype.pop_pop_sq()
+
+See [`MV.prototype.magnitude_sq()`](#mvprototypemagnitude_sq).
+
+<hr />
 ## MV.prototype.swap_hv()
 
 The `swap_hv()` method swaps the horizontal and vertical elements of
