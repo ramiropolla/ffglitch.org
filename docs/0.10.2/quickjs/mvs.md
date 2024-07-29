@@ -1,7 +1,7 @@
 ---
 layout: page
 title: MV and MVRef
-permalink: /docs/0.10.1/quickjs/mvs/
+permalink: /docs/0.10.2/quickjs/mvs/
 ---
 
 # MV and MVRef

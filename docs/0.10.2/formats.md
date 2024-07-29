@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Container formats
-permalink: /docs/0.10.1/formats/
+permalink: /docs/0.10.2/formats/
 ---
 
 # Container formats

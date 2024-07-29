@@ -1,7 +1,7 @@
 ---
 layout: page
 title: MPEG4 features
-permalink: /docs/0.10.1/features/mpeg4/
+permalink: /docs/0.10.2/features/mpeg4/
 ---
 
 # MPEG-4 features

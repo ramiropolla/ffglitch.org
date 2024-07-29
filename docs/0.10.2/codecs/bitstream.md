@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Bitstream
-permalink: /docs/0.10.1/codecs/bitstream/
+permalink: /docs/0.10.2/codecs/bitstream/
 ---
 
 # Bitstream

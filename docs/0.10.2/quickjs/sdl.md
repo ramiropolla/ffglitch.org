@@ -1,7 +1,7 @@
 ---
 layout: page
 title: SDL
-permalink: /docs/0.10.1/quickjs/sdl/
+permalink: /docs/0.10.2/quickjs/sdl/
 ---
 
 # SDL

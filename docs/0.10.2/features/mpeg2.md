@@ -1,7 +1,7 @@
 ---
 layout: page
 title: MPEG2 features
-permalink: /docs/0.10.1/features/mpeg2/
+permalink: /docs/0.10.2/features/mpeg2/
 ---
 
 # MPEG-2 features

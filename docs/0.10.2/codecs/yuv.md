@@ -1,7 +1,7 @@
 ---
 layout: page
 title: YUV
-permalink: /docs/0.10.1/codecs/yuv/
+permalink: /docs/0.10.2/codecs/yuv/
 ---
 
 # RGB

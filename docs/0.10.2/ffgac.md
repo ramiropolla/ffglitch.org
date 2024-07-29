@@ -1,7 +1,7 @@
 ---
 layout: page
 title: ffgac
-permalink: /docs/0.10.1/ffgac/
+permalink: /docs/0.10.2/ffgac/
 ---
 
 # ffgac

@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Huffman Coding
-permalink: /docs/0.10.1/codecs/huffman/
+permalink: /docs/0.10.2/codecs/huffman/
 ---
 
 # Huffman Coding

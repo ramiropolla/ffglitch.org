@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Zig-Zag and Run-Length Encoding
-permalink: /docs/0.10.1/codecs/zigzag/
+permalink: /docs/0.10.2/codecs/zigzag/
 ---
 
 # Zig-Zag and Run-Length Encoding

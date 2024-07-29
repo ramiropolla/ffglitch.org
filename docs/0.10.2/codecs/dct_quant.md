@@ -1,7 +1,7 @@
 ---
 layout: page
 title: DCT and Quantization
-permalink: /docs/0.10.1/codecs/dct_quant/
+permalink: /docs/0.10.2/codecs/dct_quant/
 ---
 
 # DCT and Quantization

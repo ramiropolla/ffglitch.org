@@ -1,7 +1,7 @@
 ---
 layout: page
 title: ffedit
-permalink: /docs/0.10.1/ffedit/
+permalink: /docs/0.10.2/ffedit/
 ---
 
 # ffedit

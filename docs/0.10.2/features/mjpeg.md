@@ -1,7 +1,7 @@
 ---
 layout: page
 title: JPEG features
-permalink: /docs/0.10.1/features/mjpeg/
+permalink: /docs/0.10.2/features/mjpeg/
 ---
 
 # JPEG features

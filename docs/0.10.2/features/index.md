@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Features
-permalink: /docs/0.10.1/features/
+permalink: /docs/0.10.2/features/
 ---
 
 # Features

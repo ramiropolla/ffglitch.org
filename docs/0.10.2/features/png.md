@@ -1,7 +1,7 @@
 ---
 layout: page
 title: PNG features
-permalink: /docs/0.10.1/features/png/
+permalink: /docs/0.10.2/features/png/
 ---
 
 # PNG and APNG features

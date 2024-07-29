@@ -1,7 +1,7 @@
 ---
 layout: page
 title: PNG
-permalink: /docs/0.10.1/codecs/png/
+permalink: /docs/0.10.2/codecs/png/
 ---
 
 # PNG

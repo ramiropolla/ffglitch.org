@@ -1,7 +1,7 @@
 ---
 layout: page
 title: fflive
-permalink: /docs/0.10.1/fflive/
+permalink: /docs/0.10.2/fflive/
 ---
 
 # fflive

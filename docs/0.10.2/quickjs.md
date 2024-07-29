@@ -1,7 +1,7 @@
 ---
 layout: page
 title: quickjs
-permalink: /docs/0.10.1/quickjs/
+permalink: /docs/0.10.2/quickjs/
 ---
 
 FFglitch uses the [`quickjs`](http://quickjs.org) engine to provide

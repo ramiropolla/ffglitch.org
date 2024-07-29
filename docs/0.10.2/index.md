@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Documentation
-permalink: /docs/0.10.1/
+permalink: /docs/0.10.2/
 ---
 
 Welcome to the documentation for `FFglitch 0.10.1`.
