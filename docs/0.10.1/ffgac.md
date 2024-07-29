@@ -149,8 +149,8 @@ export function mb_type_func(args)
   // #define CANDIDATE_MB_TYPE_BIDIR_I    (1 << 11)
   // #define CANDIDATE_MB_TYPE_DIRECT0    (1 << 12)
 
-  // In practice, you either want to set it to 0 for an `I` macroblock,
-  // or 1 for a `P` macroblock.
+  // In practice, you either want to set it to 1 for an `I` macroblock,
+  // or 2 for a `P` macroblock.
   const CANDIDATE_MB_TYPE_INTRA = (1 <<  0);
   const CANDIDATE_MB_TYPE_INTER = (1 <<  1);
   // The following example alternates between `I` and `P` macroblocks.
