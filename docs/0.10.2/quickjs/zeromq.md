@@ -293,3 +293,31 @@ if ( data )
 }
 zreq.disconnect("tcp://localhost:5556");
 ```
+
+<hr />
+## ZMQSocket.prototype.getsockopt()
+
+// if no specific type requested, try int and bigint first, and then string
+
+<hr />
+## ZMQSocket.prototype.getsockopt_int()
+
+// FFglitch extra
+
+<hr />
+## ZMQSocket.prototype.getsockopt_bigint()
+
+// FFglitch extra
+
+<hr />
+## ZMQSocket.prototype.getsockopt_str()
+
+// FFglitch extra
+
+<hr />
+## ZMQSocket.prototype.getsockopt_uint8ffarray()
+
+// FFglitch extra
+
+<hr />
+## ZMQSocket.prototype.setsockopt()
