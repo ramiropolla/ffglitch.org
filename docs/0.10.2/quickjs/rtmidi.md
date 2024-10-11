@@ -9,8 +9,16 @@ permalink: /docs/0.10.2/quickjs/rtmidi/
 [`RtMidi`](https://www.music.mcgill.ca/~gary/rtmidi/) enables [`ffgac`](../ffgac), [`ffedit`](../ffedit), and [`fflive`](../fflive) to use
 [MIDI controllers](https://en.wikipedia.org/wiki/MIDI_controller) as input devices.
 
-The global constructors `RtMidiIn()` and `RtMidiOut()` are built-in to the `quickjs` engine.
-This is a simple wrapper around `RtMidi` functionality.
+The `"rtmidi"` module is built-in to the `quickjs` engine.
+It is a simple wrapper around `RtMidi` functionality.
+It can be imported with:
+```js
+import * as rtmidi from "rtmidi";
+```
+
+The `"rtmidi"` module provides the
+`In()` constructor to create `RtMidiIn` objects, and the
+`Out()` constructor to create `RtMidiOut` objects.
 
 This page is mostly based on [`RtMidi` documentation](https://www.music.mcgill.ca/~gary/rtmidi/index.html) itself.
 
@@ -25,11 +33,11 @@ here on this page.
 
 <hr />
 ## RtMidiIn Constructor
-The `new RtMidiIn()` constructor is used to create a new `RtMidiIn` object.
+The `new rtmidi.In()` constructor is used to create a new `RtMidiIn` object.
 
 ### Syntax
 ```js
-new RtMidiIn()
+new rtmidi.In()
 ```
 
 ### Return value
@@ -37,7 +45,8 @@ The new `RtMidiIn` object.
 
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 ```
 
 <hr />
@@ -54,7 +63,8 @@ A `string` with the current RtMidi version.
 
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 print(midiin.getVersion());
 ```
 
@@ -72,7 +82,8 @@ An `Array` with the IDs of the compiled MIDI APIs.
 
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 const apis = midiin.getCompiledApi();
 print(apis);
 ```
@@ -94,7 +105,8 @@ A `string` with the name of the specified MIDI API.
 
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 const apis = midiin.getCompiledApi();
 const first_api_name = midiin.getApiName(apis[0]);
 print(first_api_name);
@@ -117,7 +129,8 @@ A `string` with the display name of the specified MIDI API.
 
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 const apis = midiin.getCompiledApi();
 const first_api_display_name = midiin.getApiDisplayName(apis[0]);
 print(first_api_display_name);
@@ -140,7 +153,8 @@ A `number` with the specified MIDI API.
 
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 const apis = midiin.getCompiledApi();
 const first_api_name = midiin.getApiName(apis[0]);
 const first_api = midiin.getCompiledApiByName(first_api_name);
@@ -159,9 +173,13 @@ setClientName(name)
 ### Parameters
 `name` is the name for the client.
 
+### Return value
+`true`
+
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 midiin.setClientName("client");
 ```
 
@@ -177,9 +195,13 @@ setPortName(name)
 ### Parameters
 `name` is the name for the port.
 
+### Return value
+`true`
+
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 midiin.setPortName("port");
 ```
 
@@ -197,7 +219,8 @@ A `number` with the current MIDI API specifier for the current instance of RtMid
 
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 const current_api = midiin.getCurrentApi();
 print(current_api);
 ```
@@ -213,10 +236,12 @@ getPortCount()
 
 ### Return value
 A `number` with the number of available MIDI input ports.
+Throws an exception on error.
 
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 const port_count = midiin.getPortCount();
 print(`port_count ${port_count}`);
 ```
@@ -224,6 +249,7 @@ print(`port_count ${port_count}`);
 <hr />
 ## RtMidiIn.prototype.getPortName()
 Return a string identifier for the specified MIDI input port number.
+Throws an exception on error.
 
 ### Syntax
 ```js
@@ -238,7 +264,8 @@ A `string` identifier for the specified MIDI input port number.
 
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 const port_count = midiin.getPortCount();
 print(`port_count ${port_count}`);
 for ( let i = 0; i < port_count; i++ )
@@ -262,11 +289,13 @@ openPort(portNumber, portName)
 * `portName` is an optional name for the application port that is used to connect to portId can be specified.
 
 ### Return value
-`true` on success, `null` otherwise.
+`true` on success.
+Throws an exception on error.
 
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 midiin.openPort();
 ```
 
@@ -283,11 +312,13 @@ openVirtualPort(portName)
 `portName` is an optional name for the application port that is used to connect to portId can be specified.
 
 ### Return value
-`true` on success, `null` otherwise.
+`true` on success.
+Throws an exception on error.
 
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 midiin.openVirtualPort();
 ```
 
@@ -300,9 +331,14 @@ Close an open MIDI connection (if one exists).
 closePort()
 ```
 
+### Return value
+`true` on success.
+Throws an exception on error.
+
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 midiin.openPort();
 midiin.closePort();
 ```
@@ -318,10 +354,12 @@ isPortOpen()
 
 ### Return value
 A `boolean` with `true` if a port is open and `false` if not.
+Throws an exception on error.
 
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 midiin.openPort();
 const is_port_open = midiin.isPortOpen();
 print(`is_port_open ${is_port_open}`);
@@ -342,9 +380,14 @@ ignoreTypes(midiSysex, midiTime, midiSense)
 * `midiTime`
 * `midiSense`
 
+### Return value
+`true` on success.
+Throws an exception on error.
+
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 midiin.openPort();
 midiin.ignoreTypes(false, false, false);
 ```
@@ -363,7 +406,8 @@ You can find more information on google, or pages
 
 ### Syntax
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 midiin.openPort();
 midiin.ignoreTypes(false, false, false);
 while ( true )
@@ -378,10 +422,12 @@ midiin.closePort();
 
 ### Return value
 An `Array` with the bytes from one message received from the `MIDI` device.
+Throws an exception on error.
 
 ### Examples
 ```js
-const midiin = new RtMidiIn();
+import * as rtmidi from "rtmidi";
+const midiin = new rtmidi.In();
 ```
 
 <!--TODO-->
@@ -389,7 +435,7 @@ const midiin = new RtMidiIn();
 <hr />
 ## RtMidiOut Constructor
 
-The `new RtMidiOut()` constructor is used to create a new `RtMidiOut` object.
+The `new rtmidi.Out()` constructor is used to create a new `RtMidiOut` object.
 
 **NOTE**:
 `RtMidiOut` is used to send messages to `MIDI` devices.
@@ -398,7 +444,7 @@ to open both an `RtMidiIn` and an `RtMidiOut`.
 
 ### Syntax
 ```js
-new RtMidiOut()
+new rtmidi.Out()
 ```
 
 ### Return value
@@ -406,7 +452,8 @@ The new `RtMidiOut` object.
 
 ### Examples
 ```js
-const rtmidiout = new RtMidiOut();
+import * as rtmidi from "rtmidi";
+const rtmidiout = new rtmidi.Out();
 ```
 
 <hr />
@@ -423,7 +470,8 @@ A `number` with the current MIDI API specifier for the current instance of RtMid
 
 ### Examples
 ```js
-const midiout = new RtMidiOut();
+import * as rtmidi from "rtmidi";
+const midiout = new rtmidi.Out();
 const current_api = midiout.getCurrentApi();
 print(current_api);
 ```
@@ -439,10 +487,12 @@ getPortCount()
 
 ### Return value
 A `number` with the number of available MIDI output ports.
+Throws an exception on error.
 
 ### Examples
 ```js
-const midiout = new RtMidiOut();
+import * as rtmidi from "rtmidi";
+const midiout = new rtmidi.Out();
 const port_count = midiout.getPortCount();
 print(`port_count ${port_count}`);
 ```
@@ -450,6 +500,7 @@ print(`port_count ${port_count}`);
 <hr />
 ## RtMidiOut.prototype.getPortName()
 Return a string identifier for the specified MIDI output port number.
+Throws an exception on error.
 
 ### Syntax
 ```js
@@ -464,7 +515,8 @@ A `string` identifier for the specified MIDI output port number.
 
 ### Examples
 ```js
-const midiout = new RtMidiOut();
+import * as rtmidi from "rtmidi";
+const midiout = new rtmidi.Out();
 const port_count = midiout.getPortCount();
 print(`port_count ${port_count}`);
 for ( let i = 0; i < port_count; i++ )
@@ -488,11 +540,13 @@ openPort(portNumber, portName)
 * `portName` is an optional name for the application port that is used to connect to portId can be specified.
 
 ### Return value
-`true` on success, `null` otherwise.
+`true` on success.
+Throws an exception on error.
 
 ### Examples
 ```js
-const midiout = new RtMidiOut();
+import * as rtmidi from "rtmidi";
+const midiout = new rtmidi.Out();
 midiout.openPort();
 ```
 
@@ -509,11 +563,13 @@ openVirtualPort(portName)
 `portName` is an optional name for the application port that is used to connect to portId can be specified.
 
 ### Return value
-`true` on success, `null` otherwise.
+`true` on success.
+Throws an exception on error.
 
 ### Examples
 ```js
-const midiout = new RtMidiOut();
+import * as rtmidi from "rtmidi";
+const midiout = new rtmidi.Out();
 midiout.openVirtualPort();
 ```
 
@@ -526,9 +582,14 @@ Close an open MIDI connection (if one exists).
 closePort()
 ```
 
+### Return value
+`true` on success.
+Throws an exception on error.
+
 ### Examples
 ```js
-const midiout = new RtMidiOut();
+import * as rtmidi from "rtmidi";
+const midiout = new rtmidi.Out();
 midiout.openPort();
 midiout.closePort();
 ```
@@ -544,10 +605,12 @@ isPortOpen()
 
 ### Return value
 A `boolean` with `true` if a port is open and `false` if not.
+Throws an exception on error.
 
 ### Examples
 ```js
-const midiout = new RtMidiOut();
+import * as rtmidi from "rtmidi";
+const midiout = new rtmidi.Out();
 midiout.openPort();
 const is_port_open = midiout.isPortOpen();
 print(`is_port_open ${is_port_open}`);
@@ -564,11 +627,13 @@ sendMessage()
 ```
 
 ### Return value
-`true` on success, `null` otherwise.
+`true` on success.
+Throws an exception on error.
 
 ### Examples
 ```js
-const midiout = new RtMidiOut();
+import * as rtmidi from "rtmidi";
+const midiout = new rtmidi.Out();
 midiout.openPort();
 midiout.sendMessage([ 0xF0, 0x00, 0xF7 ]);
 midiout.closePort();
@@ -589,6 +654,8 @@ and the high threshold is `fader[3] - fader[2]`.
           faders.
 
 ```js
+import * as rtmidi from "rtmidi";
+
 let midiin = null;
 let midi_threshold_low  = [ 0, 0 ];
 let midi_threshold_high = [ 0, 0 ];
@@ -619,7 +686,7 @@ export function setup(args)
   args.pix_fmt = opt_pix_fmt;
 
   // initialize RtMidi and list ports
-  midiin = new RtMidiIn();
+  midiin = new rtmidi.In();
   const portCount = midiin.getPortCount();
   console.log(`rtmidi port count: ${portCount}`);
   for ( let i = 0; i < portCount; i++ )
