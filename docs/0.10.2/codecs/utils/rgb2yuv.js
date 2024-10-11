@@ -5,6 +5,7 @@
 // https://web.archive.org/web/20180423091842/http://www.equasys.de/colorconversion.html
 
 /*********************************************************************/
+// NOTE: full-range yuv
 export function rgb_to_yuv(rgb)
 {
   const r = rgb[0];
