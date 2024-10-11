@@ -4,7 +4,7 @@ title: Documentation
 permalink: /docs/0.10.2/
 ---
 
-Welcome to the documentation for `FFglitch 0.10.1`.
+Welcome to the documentation for `FFglitch 0.10.2`.
 
 FFglitch is three different programs:
 - `ffedit` is the main tool for FFglitch. It is a **multimedia bitstream editor**.
