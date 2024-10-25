@@ -4,6 +4,14 @@ title: ZeroMQ
 permalink: /docs/0.10.0/quickjs/zeromq/
 ---
 
+<p markdown="1" class="centered">
+**NOTE**: This documentation refers to an old version of `FFglitch`.
+<br />
+The `ZeroMQ` interface has changed considerably since then.
+<br />
+This page is almost entirely **wrong** now.
+</p>
+
 # ZeroMQ
 
 [`ZeroMQ`](https://zeromq.org/) enables
@@ -17,7 +25,7 @@ This is a simple wrapper around `ZeroMQ` functionality.
 
 This page is mostly based on the [`ZMQ` API reference](https://libzmq.readthedocs.io/en/latest/) itself.
 
-**NOTE**: The `FFglitch` `ZeroMQ` interface is **still high experimental**.
+**NOTE**: The `FFglitch` `ZeroMQ` interface is **still highly experimental**.
           It may change wildly without warning in newer versions.
 
 <hr />

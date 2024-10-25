@@ -260,6 +260,7 @@ let mv = new MV(2,3);
 print(mv.magnitude_sq()); // 13
 ```
 
+<!--
 <hr />
 ## MV.prototype.pop_pop()
 
@@ -269,6 +270,7 @@ See [`MV.prototype.magnitude()`](#mvprototypemagnitude).
 ## MV.prototype.pop_pop_sq()
 
 See [`MV.prototype.magnitude_sq()`](#mvprototypemagnitude_sq).
+<-->
 
 <hr />
 ## MV.prototype.swap_hv()
