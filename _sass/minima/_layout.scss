@@ -24,6 +24,11 @@
   }
 }
 
+.social-icon {
+  line-height: $base-line-height * $base-font-size * 2.25;
+  padding-left: 9px;
+}
+
 .site-nav {
   float: right;
   line-height: $base-line-height * $base-font-size * 2.25;

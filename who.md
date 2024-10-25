@@ -6,7 +6,7 @@ permalink: /who/
 
 ## Who?
 
-Hi, I'm [Ramiro Polla](https://www.instagram.com/ramiropolla/).
+Hi, I'm [Ramiro Polla](https://github.com/ramiropolla).
 
 I have always loved hacking things to learn and understand how they work.
 I have always loved the technical aspects of any music-making or video-making thing.
