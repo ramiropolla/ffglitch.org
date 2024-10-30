@@ -6,15 +6,19 @@ permalink: /download/
 
 Get **Windows** binaries here:
 <br />
-[https://ffglitch.org/pub/bin/win64/ffglitch-0.10.2-windows-x86_64.7z](https://ffglitch.org/pub/bin/win64/ffglitch-0.10.2-windows-x86_64.7z)
+[https://ffglitch.org/pub/bin/win64/ffglitch-0.10.2-windows-x86_64.zip](https://ffglitch.org/pub/bin/win64/ffglitch-0.10.2-windows-x86_64.zip)
 
 Get **macOS** binaries here:
 <br />
-[https://ffglitch.org/pub/bin/mac64/ffglitch-0.10.2-macos-x86_64.7z](https://ffglitch.org/pub/bin/mac64/ffglitch-0.10.2-macos-x86_64.7z)
+[https://ffglitch.org/pub/bin/mac64/ffglitch-0.10.2-macos-x86_64.zip](https://ffglitch.org/pub/bin/mac64/ffglitch-0.10.2-macos-x86_64.zip)
+
+Get **macOS** **aarch64** (e.g.: Arm64 [Apple silicon](https://en.wikipedia.org/wiki/Apple_silicon)) binaries here:
+<br />
+[https://ffglitch.org/pub/bin/mac64/ffglitch-0.10.2-macos-aarch64.zip](https://ffglitch.org/pub/bin/macos-aarch64/ffglitch-0.10.2-macos-aarch64.zip)
 
 Get **Linux** binaries here:
 <br />
-[https://ffglitch.org/pub/bin/linux64/ffglitch-0.10.2-linux-x86_64.7z](https://ffglitch.org/pub/bin/linux64/ffglitch-0.10.2-linux-x86_64.7z)
+[https://ffglitch.org/pub/bin/linux64/ffglitch-0.10.2-linux-x86_64.zip](https://ffglitch.org/pub/bin/linux64/ffglitch-0.10.2-linux-x86_64.zip)
 
 Get **Linux** **aarch64** (e.g.: Raspberry Pi 5) binaries here:
 <br />

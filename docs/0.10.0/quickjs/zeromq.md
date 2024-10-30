@@ -272,7 +272,7 @@ This is a wrapper around [zmq_recv()](https://libzmq.readthedocs.io/en/latest/zm
 
 ### Syntax
 ```js
-send(buffer, flags)
+recv(flags)
 ```
 
 ### Parameters
