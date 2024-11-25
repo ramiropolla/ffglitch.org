@@ -810,9 +810,9 @@ Throws an exception on error.
 ## Full Example
 
 This example consists of three scripts:
-- `producer.js`, which connects to the server in `zmq.PUSH` mode and sends data from the command line parameters
-- `subscriber.js`, which connects to the server in `zmq.SUB` mode and waits for data
 - `server.js`, which acts as a server that forwards data sent from producers to subscribers
+- `subscriber.js`, which connects to the server in `zmq.SUB` mode and waits for data
+- `producer.js`, which connects to the server in `zmq.PUSH` mode and sends data from the command line parameters
 
 `server.js`:
 ```js
@@ -847,6 +847,7 @@ try {
   console.log(e);
   if ( e.stack )
     console.log(e.stack);
+  std.exit(1);
 }
 ```
 
@@ -874,6 +875,7 @@ try {
   console.log(e);
   if ( e.stack )
     console.log(e.stack);
+  std.exit(1);
 }
 ```
 
@@ -899,6 +901,7 @@ try {
   console.log(e);
   if ( e.stack )
     console.log(e.stack);
+  std.exit(1);
 }
 ```
 
