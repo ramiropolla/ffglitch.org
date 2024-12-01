@@ -14,7 +14,7 @@ Get **macOS** binaries here:
 
 Get **macOS** **aarch64** (e.g.: Arm64 [Apple silicon](https://en.wikipedia.org/wiki/Apple_silicon)) binaries here:
 <br />
-[https://ffglitch.org/pub/bin/mac64/ffglitch-0.10.2-macos-aarch64.zip](https://ffglitch.org/pub/bin/macos-aarch64/ffglitch-0.10.2-macos-aarch64.zip)
+[https://ffglitch.org/pub/bin/macos-aarch64/ffglitch-0.10.2-macos-aarch64.zip](https://ffglitch.org/pub/bin/macos-aarch64/ffglitch-0.10.2-macos-aarch64.zip)
 
 Get **Linux** binaries here:
 <br />
