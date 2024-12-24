@@ -17,6 +17,19 @@ FFglitch behind the scenes for some great datamoshing effects.
 Here are some projects I stumbled upon. If you know of any others,
 please let me know!
 
+### Live Mosher by pawelzwronek
+
+[`Live Mosher`](https://github.com/pawelzwronek/LiveMosher) is a very simple and
+straight-forward `cross-platform` front-end for `FFglitch` written by
+[pawelzwronek](https://github.com/pawelzwronek).
+
+Just open `Live Mosher` and get started with `FFglitch` right away.
+You have example scripts, a script editor, a playback interface, and that's it!
+
+![Live Mosher v1.0](/assets/images/live_mosher_v1_0.png)
+
+It includes scripts based on `dd_GlitchAssist` below.
+
 ### dd_GlitchAssist by Daz Disley
 
 [dd_GlitchAssist](http://dazdisley.co.uk/#!/page:./dd_GlitchAssist/)
