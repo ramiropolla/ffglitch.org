@@ -405,12 +405,12 @@ option to the `ffgac` command line:
 For example, with the script above and the following commane line:
 
 ```bash
-$ ffgac -i lena420.jpg -filter_row_script png_filter.js -y lena420_up_avg.png
+$ ffgac -i tsunami.jpg -filter_row_script png_filter.js -y tsunami_up_avg.png
 ```
 
 you get:
 
-![Lena Up Avg Png](/assets/images/lena420_up_avg.png)
+![Tsunami Up Avg Png](/assets/images/tsunami_up_avg.png)
 
 ## vf_script
 
