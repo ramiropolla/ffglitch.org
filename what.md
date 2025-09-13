@@ -14,7 +14,7 @@ permalink: /what/
 
 `FFglitch` can be used to create **codec art**.
 
-`FFglitch` can be used to test **codec security**.
+Go check out the [Gallery](/gallery) page for some examples.
 
 ## What is FFlive?
 
